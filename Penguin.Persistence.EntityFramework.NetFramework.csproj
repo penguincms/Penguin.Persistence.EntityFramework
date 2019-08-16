@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4B2A5D13-4B91-4585-BAB6-23AD8C07B75D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Penguin.Persistence.EntityFramework</RootNamespace>
+    <AssemblyName>Penguin.Persistence.EntityFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>http://www.penguinms.com/Nuget</PackageProjectUrl>
+    <PackageIconUrl>http://www.penguinms.com/client/images/pg.png</PackageIconUrl>
+    <Version>1.0.3</Version>
+    <Description>None Available</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Penguin.Persistence.EntityFramework.NetFramework.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.2.0\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
+    </Reference>
+    <Reference Include="Penguin.Entities, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Penguin.Entities.1.0.4\lib\netstandard2.0\Penguin.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Penguin.Persistence.Abstractions, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Penguin.Persistence.Abstractions.1.2.1\lib\netstandard2.0\Penguin.Persistence.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Penguin.Reflection, Version=3.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Penguin.Reflection.3.0.7\lib\netstandard2.0\Penguin.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="Penguin.Reflection.Abstractions, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Penguin.Reflection.Abstractions.2.0.4\lib\netstandard2.0\Penguin.Reflection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DynamicContext.cs" />
+    <Compile Include="DynamicContextFactory.cs" />
+    <Compile Include="ModelBuilder\AttributeBuilder.cs" />
+    <Compile Include="ModelBuilder\ComplexTypeBuilder.cs" />
+    <Compile Include="ModelBuilder\HasManyAttributeBuilder.cs" />
+    <Compile Include="ModelBuilder\HasRequiredAttributeBuilder.cs" />
+    <Compile Include="ModelBuilder\IndexAttributeBuilder.cs" />
+    <Compile Include="ModelBuilder\KeyBuilder.cs" />
+    <Compile Include="ModelBuilder\ManyToManyAttributeBuilder.cs" />
+    <Compile Include="ModelBuilder\MaxLengthAttributeBuilder.cs" />
+    <Compile Include="ModelBuilder\NotMappedBuilder.cs" />
+    <Compile Include="ModelBuilder\OptionalToManyAttributeBuilder.cs" />
+    <Compile Include="ModelBuilder\OptionalToRequiredAttributeBuilder.cs" />
+    <Compile Include="ModelBuilder\PropertyBuilder.cs" />
+    <Compile Include="ModelBuilder\RequiredAttributeBuilder.cs" />
+    <Compile Include="ModelBuilder\StringLengthBuilder.cs" />
+    <Compile Include="ModelBuilder\TableBuilder.cs" />
+    <Compile Include="ModelBuilder\TypeBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
+    if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\License.txt">
+      <Pack>True</Pack>
+      <PackagePath>
+      </PackagePath>
+    </None>
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningsAsErrors>NU1605, CS1591</WarningsAsErrors>
+    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Persistence.EntityFramework\Penguin.Persistence.EntityFramework.NetFrameworkxml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Persistence.EntityFramework\Penguin.Persistence.EntityFramework.NetFrameworkxml</DocumentationFile>
+  </PropertyGroup>
+</Project>

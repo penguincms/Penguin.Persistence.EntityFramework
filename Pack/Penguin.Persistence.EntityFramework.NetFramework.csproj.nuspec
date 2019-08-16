@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Penguin.Persistence.EntityFramework.NetFramework.csproj</id>
+    <version>1.0.7</version>
+    <authors>MrJackSpade</authors>
+    <owners>MrJackSpade</owners>
+    <projectUrl>http://www.penguinms.com/Nuget</projectUrl>
+    <iconUrl>http://www.penguinms.com/client/images/pg.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides a DynamicContext class that builds a schema dynamically using all types found in the assembly that inherit from Penguin.Entities.Entity, allowing for modularized applications without the need for a concrete context. Works as a PersistenceProvider for Penguin.Persistance.Abstraction repositories allowing for DI injected repositories with no EF references</description>
+    <releaseNotes>Not Available</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>Penguin EntityFramework</tags>
+    <dependencies>
+      <dependency id="EntityFramework" version="6.2.0" />
+	  <dependency id="Microsoft.SqlServer.Compact" version="4.0.8876" />
+	  <dependency id="Penguin.Entities" version="1.0.2" />
+	  <dependency id="Penguin.Persistence.Abstractions" version="1.1.11" />
+	  <dependency id="Penguin.Reflection" version="3.0.1" />
+	  <dependency id="Penguin.Reflection.Abstractions" version="2.0.3" />
+    </dependencies>
+  </metadata>
+</package>

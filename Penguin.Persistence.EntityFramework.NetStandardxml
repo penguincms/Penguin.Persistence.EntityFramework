@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Penguin.Persistence.EntityFramework.NetStandard</name>
+    </assembly>
+    <members>
+        <member name="T:Penguin.Persistence.EntityFramework.DynamicContext">
+            <summary>
+            A context that populates its own sets at runtime. Currently creates a DbSet for any object inheriting from Penguin.Entities.Entity
+            Uses Penguin.Persistence.Abstractions as attributes to define relationships between entities
+            </summary>
+        </member>
+        <member name="P:Penguin.Persistence.EntityFramework.DynamicContext.ConnectionInfo">
+            <summary>
+            The DB Connection info that was used while creating this object
+            </summary>
+        </member>
+        <member name="P:Penguin.Persistence.EntityFramework.DynamicContext.ContextId">
+            <summary>
+            A unique ID generated at class initialization to track this instance, and help with logging/debugging. Useful when DI gets involved
+            </summary>
+        </member>
+        <member name="P:Penguin.Persistence.EntityFramework.DynamicContext.DbSetTypes">
+            <summary>
+            Returns a list of all types that will be added as DbSet to the context
+            </summary>
+        </member>
+        <member name="T:Penguin.Persistence.EntityFramework.DynamicContext.DetatchMode">
+            <summary>
+            When calling to detatch an object this enum specifies the requirement for the object to be detatched.
+            Not reliable
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchMode.All">
+            <summary>
+            Detatches all objects
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchMode.Added">
+            <summary>
+            Detatches only objects in the "added" state
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchMode.Modified">
+            <summary>
+            Detatches only objects in the "Modified" state
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchMode.NonZeroId">
+            <summary>
+            Detatches only objects with a non-zero ID field
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchMode.ZeroId">
+            <summary>
+            detatches only objects with a zero ID field
+            </summary>
+        </member>
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.#ctor(Penguin.Persistence.Abstractions.PersistenceConnectionInfo)">
+            <summary>
+            Creates a new instance of this dynamic context using the provided connection info
+            </summary>
+            <param name="connectionInfo">The connection info for the database</param>
+        </member>
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.GetDynamicContextTypes">
+            <summary>
+            Returns a list of all types that will be added as DbSet to the context
+            </summary>
+            <returns>A list of all types that will be added as DbSet to the context</returns>
+        </member>
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.GetState(System.Object)">
+            <summary>
+            Retrieves the state of a given object on the context
+            </summary>
+            <param name="entity">The object to check the state of</param>
+            <returns>The state of the object</returns>
+        </member>
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.GetTableName(System.Type)">
+            <summary>
+            Attempts to find the DB table name for a given type
+            </summary>
+            <param name="t">The type to check for</param>
+            <returns>The DB table name</returns>
+        </member>
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.IsAttached(System.Object)">
+            <summary>
+            Checks if the object is attached to the context
+            </summary>
+            <param name="entity">The entity to check</param>
+            <returns>Whether or not the entity is attached</returns>
+        </member>
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetach(Penguin.Persistence.Abstractions.Models.Base.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetatchMode,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.Models.Base.KeyedObject})">
+            <summary>
+            Attempts to recursively detatch the object. Not reliable on .Net Core
+            </summary>
+            <param name="e">The entity to detatch</param>
+            <param name="mode">The mode specifying the requirements for detatchment</param>
+            <param name="Cascade">If true, will detatch recursively to children</param>
+            <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
+        </member>
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetachChildren(Penguin.Persistence.Abstractions.Models.Base.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetatchMode,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.Models.Base.KeyedObject})">
+            <summary>
+            Attempts to detatch only the children of the object given
+            </summary>
+            <param name="e">The entity to detatch</param>
+            <param name="mode">The mode specifying the requirements for detatchment</param>
+            <param name="Cascade">If true, will detatch recursively to children</param>
+            <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
+        </member>
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.OnModelCreating(System.Data.Entity.DbModelBuilder)">
+            <summary>
+            Calls the code that dynamically attaches and maps objects
+            </summary>
+            <param name="modelBuilder">The provided modelbuilder</param>
+        </member>
+        <member name="T:Penguin.Persistence.EntityFramework.DynamicContextFactory">
+            <summary>
+            Inherit from this class to provide a context factory that creates the context using the proper DB Connection info
+            </summary>
+        </member>
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContextFactory.Create">
+            <summary>
+            Override this method. Do not call the base. It will error
+            </summary>
+            <returns>The instantiated context</returns>
+        </member>
+        <member name="T:System.Data.SqlServerCe.SqlCeConnection">
+            <summary>
+            A Dummy class used as a placeholder for when the framework doesn't have access to SQLCE. Dont use this
+            </summary>
+        </member>
+    </members>
+</doc>

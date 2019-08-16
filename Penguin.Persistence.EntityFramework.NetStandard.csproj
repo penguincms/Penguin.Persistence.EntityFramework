@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>http://www.penguinms.com/Nuget</PackageProjectUrl>
+    <PackageIconUrl>http://www.penguinms.com/client/images/pg.png</PackageIconUrl>
+    <Version>1.1.2</Version>
+    <Description>Provides a DynamicContext class that builds a schema dynamically using all types found in the assembly that inherit from Penguin.Entities.Entity, allowing for modularized applications without the need for a concrete context. Works as a PersistenceProvider for Penguin.Persistance.Abstraction repositories allowing for DI injected repositories with no EF references</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Penguin.Entities" Version="1.0.8" />
+    <PackageReference Include="Penguin.Persistence.Abstractions" Version="1.2.8" />
+    <PackageReference Include="Penguin.Reflection" Version="3.11.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+    <PackageReference Include="Z.EntityFramework.Classic.Community" Version="7.1.0" />
+    <PackageReference Include="Z.EntityFramework.Classic.SqlServerCompact" Version="7.0.13" />
+  </ItemGroup>
+
+ <ItemGroup>
+    <None Include="..\License.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+ <ItemGroup>
+   <Folder Include="Properties\" />
+ </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningsAsErrors>NU1605, CS1591</WarningsAsErrors>
+    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Persistence.EntityFramework\Penguin.Persistence.EntityFramework.NetStandardxml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Persistence.EntityFramework\Penguin.Persistence.EntityFramework.NetStandardxml</DocumentationFile>
+  </PropertyGroup>
+</Project>
