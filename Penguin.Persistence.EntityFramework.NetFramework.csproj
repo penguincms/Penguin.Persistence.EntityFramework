@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -17,8 +17,8 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>http://www.penguinms.com/Nuget</PackageProjectUrl>
     <PackageIconUrl>http://www.penguinms.com/client/images/pg.png</PackageIconUrl>
-    <Version>1.0.3</Version>
-    <Description>None Available</Description>
+    <Version>1.1.0</Version>
+    <Description>Penguin Persistence EntityFramework integration specifically for .NET FRAMEWORK projects</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,25 +40,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.2.0\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
+      <HintPath>packages\EntityFramework.SqlServerCompact.6.2.0\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Penguin.Entities, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Penguin.Entities.1.0.4\lib\netstandard2.0\Penguin.Entities.dll</HintPath>
+    <Reference Include="Penguin.Entities, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Penguin.Entities.1.0.9\lib\netstandard2.0\Penguin.Entities.dll</HintPath>
     </Reference>
-    <Reference Include="Penguin.Persistence.Abstractions, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Penguin.Persistence.Abstractions.1.2.1\lib\netstandard2.0\Penguin.Persistence.Abstractions.dll</HintPath>
+    <Reference Include="Penguin.Persistence.Abstractions, Version=1.2.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Penguin.Persistence.Abstractions.1.2.8\lib\netstandard2.0\Penguin.Persistence.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Penguin.Reflection, Version=3.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Penguin.Reflection.3.0.7\lib\netstandard2.0\Penguin.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="Penguin.Reflection.Abstractions, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Penguin.Reflection.Abstractions.2.0.4\lib\netstandard2.0\Penguin.Reflection.Abstractions.dll</HintPath>
+    <Reference Include="Penguin.Reflection, Version=3.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Penguin.Reflection.3.11.0\lib\netstandard2.0\Penguin.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -117,10 +115,10 @@
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningsAsErrors>NU1605, CS1591</WarningsAsErrors>
-    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Persistence.EntityFramework\Penguin.Persistence.EntityFramework.NetFrameworkxml</DocumentationFile>
+    <DocumentationFile>Penguin.Persistence.EntityFramework.NetFramework.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>full</DebugType>
-    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Persistence.EntityFramework\Penguin.Persistence.EntityFramework.NetFrameworkxml</DocumentationFile>
+    <DocumentationFile>Penguin.Persistence.EntityFramework.NetFramework.xml</DocumentationFile>
   </PropertyGroup>
 </Project>
