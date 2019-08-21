@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Penguin.Persistence.EntityFramework.NetFramework.csproj</id>
-    <version>1.1.7</version>
+    <version>1.1.8</version>
     <authors>MrJackSpade</authors>
     <owners>MrJackSpade</owners>
     <projectUrl>http://www.penguinms.com/Nuget</projectUrl>
