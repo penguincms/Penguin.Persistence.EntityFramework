@@ -5,6 +5,7 @@ using Penguin.Persistence.Abstractions.Attributes.Relations;
 using Penguin.Persistence.Abstractions.Models.Base;
 using Penguin.Persistence.EntityFramework.ModelBuilder;
 using Penguin.Reflection;
+using Penguin.Reflection.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -393,7 +394,19 @@ namespace Penguin.Persistence.EntityFramework
                 {
                     Type propertyType = p.PropertyType;
 
-                    if (typeof(ICollection).IsAssignableFrom(propertyType))
+                    bool isSupportedCollection = false;
+
+                    Type gType;
+                    if ((gType = p.PropertyType.GetGenericArguments().FirstOrDefault()) != null)
+                    {
+                        isSupportedCollection = typeof(ICollection<>).MakeGenericType(gType).IsAssignableFrom(p.PropertyType);
+                    }
+                    else
+                    {
+                        isSupportedCollection = typeof(ICollection).IsAssignableFrom(p.PropertyType);
+                    }
+
+                    if (propertyType.IsCollection())
                     {
                         if (propertyType.IsArray)
                         {
@@ -401,7 +414,7 @@ namespace Penguin.Persistence.EntityFramework
                         }
                         else
                         {
-                            propertyType = propertyType.GetGenericArguments()[0];
+                            propertyType = gType;
                         }
 
                         if (propertyType is null)
