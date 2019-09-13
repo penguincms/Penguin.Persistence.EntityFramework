@@ -332,35 +332,42 @@ namespace Penguin.Persistence.EntityFramework
 
             foreach (PropertyInfo p in properties)
             {
-                IEnumerable<PersistenceAttribute> propertyAttributes;
-
-                if(p.GetGetMethod() is null)
+                foreach (PersistenceAttribute a in p.GetCustomAttributes<PersistenceAttribute>())
                 {
-                    //If theres no get method it should not be mapped!
-                    propertyAttributes = new List<PersistenceAttribute>()
-                    {
-                        new NotMappedAttribute()
-                    };
-                } else
-                {
-                    propertyAttributes = p.GetCustomAttributes<PersistenceAttribute>();
+                    MapProperty(modelBuilder, t, p, a);
                 }
+            }
 
-                foreach (PersistenceAttribute a in propertyAttributes)
+            foreach (PropertyInfo p in t.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                if (p.GetCustomAttribute<MappedAttribute>() is null)
                 {
-                    List<Type> matchingTypes = TypeFactory.GetDerivedTypes(typeof(PropertyBuilder<>).MakeGenericType(a.GetType())).ToList();
-
-                    foreach (Type builderType in matchingTypes)
+                    MapProperty(modelBuilder, t, p, new NotMappedAttribute());
+                }
+                else
+                {
+                    foreach (PersistenceAttribute a in p.GetCustomAttributes<PersistenceAttribute>())
                     {
-                        object builder = Activator.CreateInstance(builderType, new object[] { p, ConnectionInfo });
-
-                        MethodInfo buildMethod = builderType.GetMethod(nameof(PropertyBuilder<PersistenceAttribute>.Build));
-
-                        buildMethod = buildMethod.MakeGenericMethod(t);
-
-                        buildMethod.Invoke(builder, new object[] { modelBuilder });
+                        MapProperty(modelBuilder, t, p, a);
                     }
                 }
+
+            }
+        }
+
+        private void MapProperty(DbModelBuilder modelBuilder, Type t, PropertyInfo p, PersistenceAttribute a)
+        {
+            List<Type> matchingTypes = TypeFactory.GetDerivedTypes(typeof(PropertyBuilder<>).MakeGenericType(a.GetType())).ToList();
+
+            foreach (Type builderType in matchingTypes)
+            {
+                object builder = Activator.CreateInstance(builderType, new object[] { p, ConnectionInfo });
+
+                MethodInfo buildMethod = builderType.GetMethod(nameof(PropertyBuilder<PersistenceAttribute>.Build));
+
+                buildMethod = buildMethod.MakeGenericMethod(t);
+
+                buildMethod.Invoke(builder, new object[] { modelBuilder });
             }
         }
 
@@ -448,13 +455,14 @@ namespace Penguin.Persistence.EntityFramework
 
                 mapType = mapType.MakeGenericMethod(t);
 
-                PropertyInfo[] properties = t.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public).Where(p => p.DeclaringType == t || !allTypes.Contains(p.DeclaringType)).ToArray();
+                PropertyInfo[] properties = t.GetProperties().Where(p => p.DeclaringType == t || !allTypes.Contains(p.DeclaringType)).ToArray();
 
 
-                if(StaticLogger.IsListening)
+                if (StaticLogger.IsListening)
                 {
                     StaticLogger.Log($"DC: Found properties on type {t}", StaticLogger.LoggingLevel.Call);
-                    foreach (PropertyInfo pi in properties) {
+                    foreach (PropertyInfo pi in properties)
+                    {
                         StaticLogger.Log($"DC: Found property {pi.Name}", StaticLogger.LoggingLevel.Call);
                     }
                 }
