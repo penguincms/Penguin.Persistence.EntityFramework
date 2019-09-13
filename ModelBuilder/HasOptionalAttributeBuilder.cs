@@ -24,6 +24,12 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
         {
             Mapping mapping = Attribute.GetMapping(Member);
 
+            //We're calling the build method on a type that doesn't match the declaring property type
+            if(this.PropertyExpression(Member.PropertyType, mapping.Right.Property).ReturnType != typeof(T))
+            {
+                return;
+            }
+
             EntityTypeConfiguration<T> entityTypeConfiguration = modelBuilder.Entity<T>();
 
             MethodInfo hasOptionalMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasOptional)).MakeGenericMethod(Member.PropertyType);
