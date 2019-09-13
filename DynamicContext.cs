@@ -332,14 +332,23 @@ namespace Penguin.Persistence.EntityFramework
 
             foreach (PropertyInfo p in properties)
             {
+                IEnumerable<PersistenceAttribute> propertyAttributes;
+
+                if(p.GetGetMethod() is null)
+                {
+                    //If theres no get method it should not be mapped!
+                    propertyAttributes = new List<PersistenceAttribute>()
+                    {
+                        new NotMappedAttribute()
+                    };
+                } else
+                {
+                    propertyAttributes = p.GetCustomAttributes<PersistenceAttribute>();
+                }
+
                 foreach (PersistenceAttribute a in p.GetCustomAttributes<PersistenceAttribute>())
                 {
                     List<Type> matchingTypes = TypeFactory.GetDerivedTypes(typeof(PropertyBuilder<>).MakeGenericType(a.GetType())).ToList();
-
-                    if (matchingTypes.Count == 0)
-                    {
-                        //MessageBus?.Log($"No PropertyBuilder<> found for Persistence attribute {a.GetType()}");
-                    }
 
                     foreach (Type builderType in matchingTypes)
                     {
@@ -439,7 +448,7 @@ namespace Penguin.Persistence.EntityFramework
 
                 mapType = mapType.MakeGenericMethod(t);
 
-                PropertyInfo[] properties = t.GetProperties().Where(p => p.DeclaringType == t || !allTypes.Contains(p.DeclaringType)).ToArray();
+                PropertyInfo[] properties = t.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public).Where(p => p.DeclaringType == t || !allTypes.Contains(p.DeclaringType)).ToArray();
 
 
                 if(StaticLogger.IsListening)
