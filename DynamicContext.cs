@@ -340,13 +340,15 @@ namespace Penguin.Persistence.EntityFramework
 
             foreach (PropertyInfo p in t.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
             {
-                if (p.GetCustomAttribute<MappedAttribute>() is null)
+                List<PersistenceAttribute> DefinedAttributes = p.GetCustomAttributes<PersistenceAttribute>().ToList();
+
+                if (p.GetCustomAttribute<MappedAttribute>() is null && !DefinedAttributes.Any())
                 {
                     MapProperty(modelBuilder, t, p, new NotMappedAttribute());
                 }
                 else
                 {
-                    foreach (PersistenceAttribute a in p.GetCustomAttributes<PersistenceAttribute>())
+                    foreach (PersistenceAttribute a in DefinedAttributes)
                     {
                         MapProperty(modelBuilder, t, p, a);
                     }
