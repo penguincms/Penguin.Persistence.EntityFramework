@@ -340,6 +340,11 @@ namespace Penguin.Persistence.EntityFramework
 
             foreach (PropertyInfo p in t.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
             {
+                if(p.PropertyType.IsInterface)
+                {
+                    continue;
+                }
+
                 List<PersistenceAttribute> DefinedAttributes = p.GetCustomAttributes<PersistenceAttribute>().ToList();
 
                 if (p.GetCustomAttribute<MappedAttribute>() is null && !DefinedAttributes.Any())
@@ -442,7 +447,7 @@ namespace Penguin.Persistence.EntityFramework
                         }
                     }
 
-                    if (!allTypes.Contains(propertyType) && propertyType.IsClass)
+                    if (!allTypes.Contains(propertyType) && propertyType.IsClass && propertyType != typeof(string))
                     {
                         allTypes.Add(propertyType);
                     }
