@@ -1,4 +1,5 @@
-﻿using Penguin.Entities;
+﻿using Penguin.Debugging;
+using Penguin.Entities;
 using Penguin.Persistence.Abstractions;
 using Penguin.Persistence.Abstractions.Attributes;
 using Penguin.Persistence.Abstractions.Attributes.Relations;
@@ -439,6 +440,15 @@ namespace Penguin.Persistence.EntityFramework
                 mapType = mapType.MakeGenericMethod(t);
 
                 PropertyInfo[] properties = t.GetProperties().Where(p => p.DeclaringType == t || !allTypes.Contains(p.DeclaringType)).ToArray();
+
+
+                if(StaticLogger.IsListening)
+                {
+                    StaticLogger.Log($"DC: Found properties on type {t}", StaticLogger.LoggingLevel.Call);
+                    foreach (PropertyInfo pi in properties) {
+                        StaticLogger.Log($"DC: Found property {pi.Name}", StaticLogger.LoggingLevel.Call);
+                    }
+                }
 
                 mapType.Invoke(this, new object[] { modelBuilder, properties });
             }
