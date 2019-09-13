@@ -346,7 +346,7 @@ namespace Penguin.Persistence.EntityFramework
                     propertyAttributes = p.GetCustomAttributes<PersistenceAttribute>();
                 }
 
-                foreach (PersistenceAttribute a in p.GetCustomAttributes<PersistenceAttribute>())
+                foreach (PersistenceAttribute a in propertyAttributes)
                 {
                     List<Type> matchingTypes = TypeFactory.GetDerivedTypes(typeof(PropertyBuilder<>).MakeGenericType(a.GetType())).ToList();
 

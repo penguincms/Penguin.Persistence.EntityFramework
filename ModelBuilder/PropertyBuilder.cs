@@ -27,7 +27,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public static PropertyInfo GetBaseProperty(PropertyInfo derived)
         {
-            PropertyInfo declaredProperty = derived.DeclaringType.GetProperty(derived.Name);
+            PropertyInfo declaredProperty = derived.DeclaringType.GetProperty(derived.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             Type BaseDeclaringType = declaredProperty.GetGetMethod()?.GetBaseDefinition()?.DeclaringType;
 
