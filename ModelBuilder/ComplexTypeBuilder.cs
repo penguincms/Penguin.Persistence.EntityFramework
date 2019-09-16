@@ -5,23 +5,16 @@ using System.Data.Entity;
 
 namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "<Pending>")]
     internal class ComplexTypeBuilder : TypeBuilder<ComplexTypeAttribute>
     {
-        #region Constructors
-
         public ComplexTypeBuilder(Type m, PersistenceConnectionInfo persistenceConnectionInfo) : base(m, persistenceConnectionInfo)
         {
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
             modelBuilder.ComplexType<T>();
         }
-
-        #endregion Methods
     }
 }

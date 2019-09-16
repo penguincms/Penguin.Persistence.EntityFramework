@@ -8,50 +8,39 @@ namespace System.Data.SqlServerCe
     /// </summary>
     public class SqlCeConnection : DbConnection
     {
-        
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        #region Properties
-        public override string ConnectionString { get => _connection.ConnectionString; set => _connection.ConnectionString = value; }
 
-        public override string Database => _connection.Database;
+        public override string ConnectionString { get => Connection.ConnectionString; set => Connection.ConnectionString = value; }
 
-        public override string DataSource => _connection.DataSource;
+        public override string Database => Connection.Database;
 
-        public override string ServerVersion => _connection.ServerVersion;
+        public override string DataSource => Connection.DataSource;
 
-        public override ConnectionState State => _connection.State;
+        public override string ServerVersion => Connection.ServerVersion;
 
-        #endregion Properties
-
-        #region Constructors
+        public override ConnectionState State => Connection.State;
 
         public SqlCeConnection(string connectionString)
         {
-            _connection = new SqlConnection(connectionString);
+            Connection = new SqlConnection(connectionString);
         }
 
         public SqlCeConnection(string connectionString, SqlCredential credential)
         {
-            _connection = new SqlConnection(connectionString, credential);
+            Connection = new SqlConnection(connectionString, credential);
         }
 
-        #endregion Constructors
+        public override void ChangeDatabase(string databaseName) => Connection.ChangeDatabase(databaseName);
 
-        #region Methods
+        public override void Close() => Connection.Close();
 
-        public override void ChangeDatabase(string databaseName) => _connection.ChangeDatabase(databaseName);
+        public override void Open() => Connection.Open();
 
-        public override void Close() => _connection.Close();
+        protected SqlConnection Connection { get; set; }
 
-        public override void Open() => _connection.Open();
+        protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel) => Connection.BeginTransaction(isolationLevel);
 
-        #endregion Methods
-
-        protected SqlConnection _connection { get; set; }
-
-        protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel) => _connection.BeginTransaction(isolationLevel);
-
-        protected override DbCommand CreateDbCommand() => _connection.CreateCommand();
+        protected override DbCommand CreateDbCommand() => Connection.CreateCommand();
 
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }

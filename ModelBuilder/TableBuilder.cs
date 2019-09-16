@@ -6,17 +6,12 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "<Pending>")]
     internal class TableBuilder : TypeBuilder<TableAttribute>
     {
-        #region Constructors
-
         public TableBuilder(Type m, PersistenceConnectionInfo persistenceConnectionInfo) : base(m, persistenceConnectionInfo)
         {
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
@@ -32,7 +27,5 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
                 ec.ToTable(Attribute.Name);
             });
         }
-
-        #endregion Methods
     }
 }

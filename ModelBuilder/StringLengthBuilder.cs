@@ -7,17 +7,12 @@ using System.Reflection;
 
 namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "<Pending>")]
     internal class StringLengthBuilder : PropertyBuilder<StringLengthAttribute>
     {
-        #region Constructors
-
         public StringLengthBuilder(PropertyInfo m, PersistenceConnectionInfo persistenceConnectionInfo) : base(m, persistenceConnectionInfo)
         {
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
@@ -27,7 +22,5 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             HasMaxLengthMethod.Invoke(propertyConfiguration, new object[] { PersistenceConnectionInfo.ProviderType == ProviderType.SQLCE ? Math.Min(Attribute.Length, 4000) : Attribute.Length });
         }
-
-        #endregion Methods
     }
 }

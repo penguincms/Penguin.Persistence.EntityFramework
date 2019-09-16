@@ -6,17 +6,12 @@ using System.Reflection;
 
 namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "<Pending>")]
     internal class OptionalToManyAttributeBuilder : PropertyBuilder<OptionalToManyAttribute>
     {
-        #region Constructors
-
         public OptionalToManyAttributeBuilder(PropertyInfo m, PersistenceConnectionInfo persistenceConnectionInfo) : base(m, persistenceConnectionInfo)
         {
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
@@ -26,14 +21,12 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             MethodInfo hasOptionalMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasOptional)).MakeGenericMethod(Member.PropertyType);
 
-            object optionalNavigationPropertyConfiguration = hasOptionalMethod.Invoke(entityTypeConfiguration, new[] { this.PropertyExpression(typeof(T), mapping.Left.Property) });
+            object optionalNavigationPropertyConfiguration = hasOptionalMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(typeof(T), mapping.Left.Property) });
 
             //With Many
 
             //ManyNavigationPropertyConfiguration
             this.WithMany(optionalNavigationPropertyConfiguration, Member, mapping);
         }
-
-        #endregion Methods
     }
 }

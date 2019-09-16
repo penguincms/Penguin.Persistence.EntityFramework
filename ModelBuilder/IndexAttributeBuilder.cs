@@ -7,17 +7,12 @@ using System.Reflection;
 
 namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "<Pending>")]
     internal class IndexAttributeBuilder : PropertyBuilder<IndexAttribute>
     {
-        #region Constructors
-
         public IndexAttributeBuilder(PropertyInfo m, PersistenceConnectionInfo persistenceConnectionInfo) : base(m, persistenceConnectionInfo)
         {
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
@@ -27,7 +22,5 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             HasColumnAnnotationMethod.Invoke(propertyConfiguration, new object[] { "Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute("IX_" + Member.Name) { IsUnique = Attribute.IsUnique }) });
         }
-
-        #endregion Methods
     }
 }

@@ -9,7 +9,7 @@ namespace Penguin.Persistence.EntityFramework
     /// </summary>
     public class DynamicContextFactory : IDbContextFactory<DynamicContext>
     {
-        #region Methods
+        private const string NoBaseMessage = "Do not call base method on context factory to create context. Simply return an instance of the dynamic context";
 
         /// <summary>
         /// Override this method. Do not call the base. It will error
@@ -34,10 +34,8 @@ namespace Penguin.Persistence.EntityFramework
             }
             else
             {
-                throw new Exception("Do not call base method on context factory to create context. Simply return an instance of the dynamic context");
+                throw new Exception(NoBaseMessage);
             }
         }
-
-        #endregion Methods
     }
 }

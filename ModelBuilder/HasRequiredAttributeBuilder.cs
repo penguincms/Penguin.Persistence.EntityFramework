@@ -6,17 +6,12 @@ using System.Reflection;
 
 namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "<Pending>")]
     internal class HasRequiredAttributeBuilder : PropertyBuilder<HasRequiredAttribute>
     {
-        #region Constructors
-
         public HasRequiredAttributeBuilder(PropertyInfo m, PersistenceConnectionInfo persistenceConnectionInfo) : base(m, persistenceConnectionInfo)
         {
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
@@ -24,9 +19,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             MethodInfo HasRequiredMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<T>.HasRequired)).MakeGenericMethod(Member.PropertyType);
 
-            HasRequiredMethod.Invoke(entityTypeConfiguration, new[] { this.PropertyExpression(Member.ReflectedType, Member.Name) });
+            HasRequiredMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(Member.ReflectedType, Member.Name) });
         }
-
-        #endregion Methods
     }
 }

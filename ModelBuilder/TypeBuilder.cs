@@ -6,12 +6,8 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
     internal abstract class TypeBuilder<T> : AttributeBuilder<T, Type> where T : PersistenceAttribute
     {
-        #region Constructors
-
         public TypeBuilder(Type m, PersistenceConnectionInfo persistenceConnectionInfo) : base(m, persistenceConnectionInfo)
         {
         }
-
-        #endregion Constructors
     }
 }

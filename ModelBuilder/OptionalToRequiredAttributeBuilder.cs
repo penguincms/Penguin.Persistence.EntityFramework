@@ -8,17 +8,12 @@ using System.Reflection;
 
 namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "<Pending>")]
     internal class OptionalToRequiredAttributeBuilder : PropertyBuilder<OptionalToRequiredAttribute>
     {
-        #region Constructors
-
         public OptionalToRequiredAttributeBuilder(PropertyInfo m, PersistenceConnectionInfo persistenceConnectionInfo) : base(m, persistenceConnectionInfo)
         {
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
@@ -28,14 +23,12 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             MethodInfo hasOptionalMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasOptional)).MakeGenericMethod(Member.PropertyType);
 
-            object optionalNavigationPropertyConfiguration = hasOptionalMethod.Invoke(entityTypeConfiguration, new[] { this.PropertyExpression(typeof(T), mapping.Left.Property) });
+            object optionalNavigationPropertyConfiguration = hasOptionalMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(typeof(T), mapping.Left.Property) });
 
             //With Required
             MethodInfo withRequiredMethod = optionalNavigationPropertyConfiguration.GetType().GetMethods().Single(m => m.GetParameters().Count() == 1 && m.Name == nameof(OptionalNavigationPropertyConfiguration<object, object>.WithRequired));
 
-            withRequiredMethod.Invoke(optionalNavigationPropertyConfiguration, new[] { this.PropertyExpression(Member.PropertyType, mapping.Right.Property) });
+            withRequiredMethod.Invoke(optionalNavigationPropertyConfiguration, new[] { PropertyExpression(Member.PropertyType, mapping.Right.Property) });
         }
-
-        #endregion Methods
     }
 }

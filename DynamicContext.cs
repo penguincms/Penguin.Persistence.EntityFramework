@@ -16,6 +16,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Data.SqlServerCe;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -28,8 +29,6 @@ namespace Penguin.Persistence.EntityFramework
     /// </summary>
     public class DynamicContext : DbContext
     {
-        #region Properties
-
         /// <summary>
         /// The DB Connection info that was used while creating this object
         /// </summary>
@@ -64,16 +63,12 @@ namespace Penguin.Persistence.EntityFramework
             }
         }
 
-        #endregion Properties
-
-        #region Enums
-
         /// <summary>
         /// When calling to detatch an object this enum specifies the requirement for the object to be detatched.
         /// Not reliable
         /// </summary>
         [Flags]
-        public enum DetatchMode
+        public enum DetatchModes
         {
             /// <summary>
             /// Detatches all objects
@@ -101,24 +96,18 @@ namespace Penguin.Persistence.EntityFramework
             ZeroId = 8
         }
 
-        #endregion Enums
-
-        #region Constructors
 
         /// <summary>
         /// Creates a new instance of this dynamic context using the provided connection info
         /// </summary>
         /// <param name="connectionInfo">The connection info for the database</param>
-        public DynamicContext(PersistenceConnectionInfo connectionInfo) : base(connectionInfo.ProviderType == ProviderType.SQLCE ? new SqlCeConnection(connectionInfo.ConnectionString) as DbConnection : new SqlConnection(connectionInfo.ConnectionString) as DbConnection, true)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
+        public DynamicContext(PersistenceConnectionInfo connectionInfo) : base(connectionInfo?.ProviderType == ProviderType.SQLCE ? new SqlCeConnection(connectionInfo.ConnectionString) as DbConnection : new SqlConnection(connectionInfo.ConnectionString) as DbConnection, true)
         {
             this.ConnectionInfo = connectionInfo;
 
             this.SetUp();
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         /// <summary>
         /// Returns a list of all types that will be added as DbSet to the context
@@ -144,7 +133,7 @@ namespace Penguin.Persistence.EntityFramework
         {
             if (entity == null)
             {
-                throw new ArgumentNullException("entity");
+                throw new ArgumentNullException(nameof(entity));
             }
 
             if (((IObjectContextAdapter)this).ObjectContext.ObjectStateManager.TryGetObjectStateEntry(entity, out ObjectStateEntry entry))
@@ -164,15 +153,15 @@ namespace Penguin.Persistence.EntityFramework
         {
             ObjectContext objectContext = ((IObjectContextAdapter)this).ObjectContext;
 
-            MethodInfo CreateObjectSetMethod = typeof(ObjectContext).GetMethods().Single(m => m.Name == nameof(ObjectContext.CreateObjectSet) && m.GetParameters().Count() == 0);
+            MethodInfo CreateObjectSetMethod = typeof(ObjectContext).GetMethods().Single(m => m.Name == nameof(ObjectContext.CreateObjectSet) && !m.GetParameters().Any());
 
             CreateObjectSetMethod = CreateObjectSetMethod.MakeGenericMethod(t);
 
-            object objectSet = CreateObjectSetMethod.Invoke(objectContext, new object[] { });
+            object objectSet = CreateObjectSetMethod.Invoke(objectContext, Array.Empty<object>());
 
             MethodInfo TraceStringMethod = objectSet.GetType().GetMethods().Single(m => m.Name == nameof(ObjectSet<object>.ToTraceString));
 
-            string sql = TraceStringMethod.Invoke(objectSet, new object[] { }) as string;
+            string sql = TraceStringMethod.Invoke(objectSet, Array.Empty<object>()) as string;
 
             Regex regex = new Regex("FROM (?<table>.*) AS");
             Match match = regex.Match(sql);
@@ -195,7 +184,7 @@ namespace Penguin.Persistence.EntityFramework
         /// <param name="mode">The mode specifying the requirements for detatchment</param>
         /// <param name="Cascade">If true, will detatch recursively to children</param>
         /// <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
-        public void TryDetach(KeyedObject e, DetatchMode mode = DetatchMode.All, bool Cascade = false, List<KeyedObject> Detatched = null)
+        public void TryDetach(KeyedObject e, DetatchModes mode = DetatchModes.All, bool Cascade = false, List<KeyedObject> Detatched = null)
         {
             if (Detatched is null)
             {
@@ -224,24 +213,24 @@ namespace Penguin.Persistence.EntityFramework
             {
                 bool PassesMode = true;
 
-                if (mode != DetatchMode.All)
+                if (mode != DetatchModes.All)
                 {
-                    if (mode.HasFlag(DetatchMode.Added))
+                    if (mode.HasFlag(DetatchModes.Added))
                     {
                         PassesMode = PassesMode && (this.GetState(e) == EntityState.Added);
                     }
 
-                    if (mode.HasFlag(DetatchMode.Modified))
+                    if (mode.HasFlag(DetatchModes.Modified))
                     {
                         PassesMode = PassesMode && (this.GetState(e) == EntityState.Modified);
                     }
 
-                    if (mode.HasFlag(DetatchMode.ZeroId))
+                    if (mode.HasFlag(DetatchModes.ZeroId))
                     {
                         PassesMode = PassesMode && e._Id == 0;
                     }
 
-                    if (mode.HasFlag(DetatchMode.NonZeroId))
+                    if (mode.HasFlag(DetatchModes.NonZeroId))
                     {
                         PassesMode = PassesMode && e._Id != 0;
                     }
@@ -261,8 +250,10 @@ namespace Penguin.Persistence.EntityFramework
         /// <param name="mode">The mode specifying the requirements for detatchment</param>
         /// <param name="Cascade">If true, will detatch recursively to children</param>
         /// <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
-        public void TryDetachChildren(KeyedObject e, DetatchMode mode = DetatchMode.All, bool Cascade = false, List<KeyedObject> Detatched = null)
+        public void TryDetachChildren(KeyedObject e, DetatchModes mode = DetatchModes.All, bool Cascade = false, List<KeyedObject> Detatched = null)
         {
+            Contract.Requires(e != null);
+
             if (Detatched is null)
             {
                 Detatched = new List<KeyedObject>();
@@ -340,7 +331,7 @@ namespace Penguin.Persistence.EntityFramework
 
             foreach (PropertyInfo p in t.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
             {
-                if(p.PropertyType.IsInterface)
+                if (p.PropertyType.IsInterface)
                 {
                     continue;
                 }
@@ -358,27 +349,11 @@ namespace Penguin.Persistence.EntityFramework
                         MapProperty(modelBuilder, t, p, a);
                     }
                 }
-
             }
         }
 
-        private void MapProperty(DbModelBuilder modelBuilder, Type t, PropertyInfo p, PersistenceAttribute a)
-        {
-            List<Type> matchingTypes = TypeFactory.GetDerivedTypes(typeof(PropertyBuilder<>).MakeGenericType(a.GetType())).ToList();
-
-            foreach (Type builderType in matchingTypes)
-            {
-                object builder = Activator.CreateInstance(builderType, new object[] { p, ConnectionInfo });
-
-                MethodInfo buildMethod = builderType.GetMethod(nameof(PropertyBuilder<PersistenceAttribute>.Build));
-
-                buildMethod = buildMethod.MakeGenericMethod(t);
-
-                buildMethod.Invoke(builder, new object[] { modelBuilder });
-            }
-        }
-
-        internal virtual void SetUp()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
+        internal void SetUp()
         {
             if (this.ConnectionInfo.ProviderType != ProviderType.SQLCE)
             {
@@ -443,7 +418,7 @@ namespace Penguin.Persistence.EntityFramework
 
                         if (propertyType is null)
                         {
-                            throw new Exception("Null property type");
+                            Contract.Assert(propertyType != null);
                         }
                     }
 
@@ -464,7 +439,6 @@ namespace Penguin.Persistence.EntityFramework
 
                 PropertyInfo[] properties = t.GetProperties().Where(p => p.DeclaringType == t || !allTypes.Contains(p.DeclaringType)).ToArray();
 
-
                 if (StaticLogger.IsListening)
                 {
                     StaticLogger.Log($"DC: Found properties on type {t}", StaticLogger.LoggingLevel.Call);
@@ -480,7 +454,21 @@ namespace Penguin.Persistence.EntityFramework
             base.OnModelCreating(modelBuilder);
         }
 
-        #endregion Methods
+        private void MapProperty(DbModelBuilder modelBuilder, Type t, PropertyInfo p, PersistenceAttribute a)
+        {
+            List<Type> matchingTypes = TypeFactory.GetDerivedTypes(typeof(PropertyBuilder<>).MakeGenericType(a.GetType())).ToList();
+
+            foreach (Type builderType in matchingTypes)
+            {
+                object builder = Activator.CreateInstance(builderType, new object[] { p, ConnectionInfo });
+
+                MethodInfo buildMethod = builderType.GetMethod(nameof(PropertyBuilder<PersistenceAttribute>.Build));
+
+                buildMethod = buildMethod.MakeGenericMethod(t);
+
+                buildMethod.Invoke(builder, new object[] { modelBuilder });
+            }
+        }
 
         private static HashSet<Type> _DbSetTypes { get; set; }
         private object SetTypeLock { get; set; } = new object();

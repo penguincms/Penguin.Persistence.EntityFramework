@@ -15,15 +15,9 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
     internal abstract class PropertyBuilder<TAttribute> : AttributeBuilder<TAttribute, PropertyInfo> where TAttribute : PersistenceAttribute
     {
-        #region Constructors
-
         public PropertyBuilder(PropertyInfo m, PersistenceConnectionInfo persistenceConnectionInfo) : base(m, persistenceConnectionInfo)
         {
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         public static PropertyInfo GetBaseProperty(PropertyInfo derived)
         {
@@ -51,7 +45,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             MethodInfo HasManyMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasMany)).MakeGenericMethod(collectionType);
 
-            return HasManyMethod.Invoke(entityTypeConfiguration, new[] { this.PropertyExpression(t, p.Name, typeof(ICollection<>).MakeGenericType(collectionType)) });
+            return HasManyMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(t, p.Name, typeof(ICollection<>).MakeGenericType(collectionType)) });
         }
 
         public object Property<TModel>(DbModelBuilder modelBuilder) where TModel : class
@@ -85,7 +79,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
                 propertyMethod = propertyMethods.Single().MakeGenericMethod(Member.PropertyType);
             }
 
-            return propertyMethod.Invoke(entityTypeConfiguration, new[] { this.PropertyExpression(Member.ReflectedType, Member.Name) });
+            return propertyMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(Member.ReflectedType, Member.Name) });
         }
 
         public object PropertyMethod<TModel>(DbModelBuilder modelBuilder, string Name) where TModel : class
@@ -96,10 +90,10 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             MethodInfo propertyMethod = propertyMethods.Single().MakeGenericMethod(Member.PropertyType);
 
-            return propertyMethod.Invoke(entityTypeConfiguration, new[] { this.PropertyExpression(Member.ReflectedType, Member.Name) });
+            return propertyMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(Member.ReflectedType, Member.Name) });
         }
 
-        protected LambdaExpression PropertyExpression(Type sourceType, string propertyName, Type returnType = null)
+        protected static LambdaExpression PropertyExpression(Type sourceType, string propertyName, Type returnType = null)
         {
             ParameterExpression param = Expression.Parameter(sourceType);
 
@@ -148,11 +142,9 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             Type returnType = typeof(ICollection<>).MakeGenericType(p.ReflectedType);
 
-            MethodInfo WithManyMethod = manyNavigationPropertyConfiguration.GetType().GetMethods().Single(m => m.Name == nameof(ManyNavigationPropertyConfiguration<object, object>.WithMany) && m.GetParameters().Count() != 0);
+            MethodInfo WithManyMethod = manyNavigationPropertyConfiguration.GetType().GetMethods().Single(m => m.Name == nameof(ManyNavigationPropertyConfiguration<object, object>.WithMany) && m.GetParameters().Any());
 
-            return WithManyMethod.Invoke(manyNavigationPropertyConfiguration, new[] { this.PropertyExpression(sourceType, mapping.Right.Property, returnType) });
+            return WithManyMethod.Invoke(manyNavigationPropertyConfiguration, new[] { PropertyExpression(sourceType, mapping.Right.Property, returnType) });
         }
-
-        #endregion Methods
     }
 }
