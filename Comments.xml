@@ -124,10 +124,5 @@
             </summary>
             <returns>The instantiated context</returns>
         </member>
-        <member name="T:System.Data.SqlServerCe.SqlCeConnection">
-            <summary>
-            A Dummy class used as a placeholder for when the framework doesn't have access to SQLCE. Dont use this
-            </summary>
-        </member>
     </members>
 </doc>

@@ -3,9 +3,4 @@
   <PropertyGroup>
     <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Update="NetStandard\SqlCeConnection.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
 </Project>
