@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Penguin.Persistence.EntityFramework.NetFramework</id>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <authors>MrJackSpade</authors>
     <owners>MrJackSpade</owners>
     <projectUrl>http://www.penguinms.com/Nuget</projectUrl>
@@ -16,9 +16,10 @@
       <dependency id="EntityFramework" version="6.2.0" />
 	  <dependency id="Microsoft.SqlServer.Compact" version="4.0.8876" />
 	  <dependency id="Penguin.Entities" version="2.0.0" />
+	  <dependency id="Penguin.Debugging" version="2.0.1" />
 	  <dependency id="Penguin.Reflection" version="4.0.0" />
-	  <dependency id="Penguin.Reflection.Extensions" version="3.0.0" />
-	  <dependency id="Penguin.Persistence.Abstractions" version="2.0.0" />
+	  <dependency id="Penguin.Reflection.Extensions" version="3.0.2" />
+	  <dependency id="Penguin.Persistence.Abstractions" version="2.0.7" />
     </dependencies>
   </metadata>
 </package>
