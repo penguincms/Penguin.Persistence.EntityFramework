@@ -4,7 +4,6 @@
     <PackageProjectUrl>https://github.com/penguincms/Penguin.Persistence.EntityFramework</PackageProjectUrl>
     <Version>3.0.0</Version>
     <Description>Provides a DynamicContext class that builds a schema dynamically using all types found in the assembly that inherit from Penguin.Entities.Entity, allowing for modularized applications without the need for a concrete context. Works as a PersistenceProvider for Penguin.Persistance.Abstraction repositories allowing for DI injected repositories with no EF references</Description>
-    <TargetFramework>netstandard2.1</TargetFramework>
     <PackageId>Penguin.Persistence.EntityFramework</PackageId>
     <Authors>Penguin.Persistence.EntityFramework</Authors>
     <Product>Penguin.Persistence.EntityFramework</Product>
@@ -17,10 +16,20 @@
     <None Remove="Dist\**" />
     <None Remove="packages\**" />
   </ItemGroup>
-
-  <ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netcore'))">
     <PackageReference Include="EntityFramework" Version="6.3.0" />
-    <PackageReference Include="EntityFramework.SqlServerCompact" Version="6.3.0" />
+	<PackageReference Include="EntityFramework.SqlServerCompact" Version="6.3.0" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
+    <PackageReference Include="EntityFramework" Version="6.3.0" />
+	<PackageReference Include="EntityFramework.SqlServerCompact" Version="6.3.0" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
+	<PackageReference Include="EntityFramework.SqlServerCompact" Version="6.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+
     <PackageReference Include="Microsoft.SqlServer.Compact" Version="4.0.8876.1" />
     <PackageReference Include="Penguin.Entities" Version="2.0.0" />
     <PackageReference Include="Penguin.Persistence.Abstractions" Version="2.0.7" />
@@ -28,7 +37,6 @@
     <PackageReference Include="Penguin.Reflection.Extensions" Version="3.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
   </ItemGroup>
-
  <ItemGroup>
    <Folder Include="Properties\" />
  </ItemGroup>
