@@ -15,7 +15,6 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
-using System.Data.SqlServerCe;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
@@ -96,13 +95,21 @@ namespace Penguin.Persistence.EntityFramework
             ZeroId = 8
         }
 
+        private static DbConnection GetDbConnection(PersistenceConnectionInfo connectionInfo)
+        {
+#if NET48
+            return connectionInfo?.ProviderType == ProviderType.SQLCE ? new System.Data.SqlServerCe.SqlCeConnection(connectionInfo.ConnectionString) as DbConnection : new SqlConnection(connectionInfo.ConnectionString) as DbConnection;
+#else
+            return new SqlConnection(connectionInfo.ConnectionString) as DbConnection;
+#endif
+        }
 
         /// <summary>
         /// Creates a new instance of this dynamic context using the provided connection info
         /// </summary>
         /// <param name="connectionInfo">The connection info for the database</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
-        public DynamicContext(PersistenceConnectionInfo connectionInfo) : base(connectionInfo?.ProviderType == ProviderType.SQLCE ? new SqlCeConnection(connectionInfo.ConnectionString) as DbConnection : new SqlConnection(connectionInfo.ConnectionString) as DbConnection, true)
+        public DynamicContext(PersistenceConnectionInfo connectionInfo) : base(GetDbConnection(connectionInfo), true)
         {
             this.ConnectionInfo = connectionInfo;
 
