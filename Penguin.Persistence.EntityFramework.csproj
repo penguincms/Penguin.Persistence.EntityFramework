@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;net48;netstandard2.0</TargetFrameworks>
     <PackageProjectUrl>https://github.com/penguincms/Penguin.Persistence.EntityFramework</PackageProjectUrl>
-    <Version>3.0.2</Version>
+    <Version>3.1.0</Version>
     <Description>Provides a DynamicContext class that builds a schema dynamically using all types found in the assembly that inherit from Penguin.Entities.Entity, allowing for modularized applications without the need for a concrete context. Works as a PersistenceProvider for Penguin.Persistance.Abstraction repositories allowing for DI injected repositories with no EF references</Description>
     <PackageId>Penguin.Persistence.EntityFramework</PackageId>
     <Authors>Penguin.Persistence.EntityFramework</Authors>
@@ -21,17 +21,17 @@
     <PackageReference Include="EntityFramework" Version="6.3.0" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2.0'))">
-    <PackageReference Include="Z.EntityFramework.Classic" Version="7.0.0" />
+    <PackageReference Include="Z.EntityFramework.Classic" Version="7.1.14" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
-	<PackageReference Include="EntityFramework.SqlServerCompact" Version="6.2.0" />
+    <PackageReference Include="EntityFramework" Version="6.3.0" />
+	<PackageReference Include="EntityFramework.SqlServerCompact" Version="6.3.0" />
 	<PackageReference Include="Microsoft.SqlServer.Compact" Version="4.0.8876.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Penguin.Entities" Version="2.0.0" />
-    <PackageReference Include="Penguin.Persistence.Abstractions" Version="2.0.7" />
-    <PackageReference Include="Penguin.Reflection" Version="4.0.1" />
+    <PackageReference Include="Penguin.Entities" Version="2.0.1" />
+    <PackageReference Include="Penguin.Persistence.Abstractions" Version="2.1.4" />
+    <PackageReference Include="Penguin.Reflection" Version="4.0.2" />
     <PackageReference Include="Penguin.Reflection.Extensions" Version="3.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
   </ItemGroup>
