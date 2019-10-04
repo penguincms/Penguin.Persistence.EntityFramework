@@ -18,12 +18,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
             EntityTypeConfiguration<T> entityTypeConfiguration = modelBuilder.Entity<T>();
 
             modelBuilder.Entity<T>().Map((ec) =>
-            {
-                if (Attribute.MapInherited)
-                {
-                    //ec.MapInheritedProperties();
-                }
-
+            {             
                 ec.ToTable(Attribute.Name);
             });
         }
