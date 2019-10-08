@@ -19,8 +19,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Penguin.DependencyInjection.Abstractions.Attributes;
-using Microsoft.Extensions.DependencyInjection;
 using Penguin.Cms.Entities;
+using Penguin.DependencyInjection.Abstractions.Enums;
 
 namespace Penguin.Persistence.EntityFramework
 {
