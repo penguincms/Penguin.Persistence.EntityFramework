@@ -89,7 +89,7 @@
             <param name="entity">The entity to check</param>
             <returns>Whether or not the entity is attached</returns>
         </member>
-        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetach(Penguin.Persistence.Abstractions.Models.Base.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.Models.Base.KeyedObject})">
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetach(Penguin.Persistence.Abstractions.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.KeyedObject})">
             <summary>
             Attempts to recursively detatch the object. Not reliable on .Net Core
             </summary>
@@ -98,7 +98,7 @@
             <param name="Cascade">If true, will detatch recursively to children</param>
             <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
         </member>
-        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetachChildren(Penguin.Persistence.Abstractions.Models.Base.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.Models.Base.KeyedObject})">
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetachChildren(Penguin.Persistence.Abstractions.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.KeyedObject})">
             <summary>
             Attempts to detatch only the children of the object given
             </summary>

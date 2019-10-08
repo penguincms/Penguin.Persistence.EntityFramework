@@ -3,7 +3,6 @@ using Penguin.Entities;
 using Penguin.Persistence.Abstractions;
 using Penguin.Persistence.Abstractions.Attributes;
 using Penguin.Persistence.Abstractions.Attributes.Relations;
-using Penguin.Persistence.Abstractions.Models.Base;
 using Penguin.Persistence.EntityFramework.ModelBuilder;
 using Penguin.Reflection;
 using Penguin.Reflection.Extensions;
@@ -19,6 +18,9 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Penguin.DependencyInjection.Abstractions.Attributes;
+using Microsoft.Extensions.DependencyInjection;
+using Penguin.Cms.Entities;
 
 namespace Penguin.Persistence.EntityFramework
 {
@@ -26,6 +28,7 @@ namespace Penguin.Persistence.EntityFramework
     /// A context that populates its own sets at runtime. Currently creates a DbSet for any object inheriting from Penguin.Entities.Entity
     /// Uses Penguin.Persistence.Abstractions as attributes to define relationships between entities
     /// </summary>
+    [RegisterThroughMostDerived(typeof(DbContext), ServiceLifetime.Transient)]
     public class DynamicContext : DbContext
     {
         /// <summary>
