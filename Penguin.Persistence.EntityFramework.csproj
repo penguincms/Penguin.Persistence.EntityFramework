@@ -8,6 +8,8 @@
     <PackageId>Penguin.Persistence.EntityFramework</PackageId>
     <Authors>Penguin.Persistence.EntityFramework</Authors>
     <Product>Penguin.Persistence.EntityFramework</Product>
+    <AssemblyName>Penguin.Persistence.EntityFramework</AssemblyName>
+    <RootNamespace>Penguin.Persistence.EntityFramework</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Dist\**" />
@@ -16,9 +18,9 @@
     <EmbeddedResource Remove="packages\**" />
     <None Remove="Dist\**" />
     <None Remove="packages\**" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9M1HHH" />
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9M1HHH" />
-    <PackageReference Include="Penguin.Reflection" Version="4.0.9-T9M1HHH" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9M2XAX" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9M2XAX" />
+    <PackageReference Include="Penguin.Reflection" Version="4.0.9-T9M2XAX" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2.1'))">
     <PackageReference Include="EntityFramework" Version="6.3.0" />
