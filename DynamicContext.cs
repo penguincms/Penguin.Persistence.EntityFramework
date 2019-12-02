@@ -369,10 +369,14 @@ namespace Penguin.Persistence.EntityFramework
             {
                 try
                 {
+                    int CommandTimeout = 300;
+
+                    Database.CommandTimeout = CommandTimeout;
+
                     IObjectContextAdapter adapter = this;
                     ObjectContext objectContext = adapter.ObjectContext;
 
-                    objectContext.CommandTimeout = 1 * 300; // value in seconds
+                    objectContext.CommandTimeout = CommandTimeout; // value in seconds
                 }
                 catch (Exception ex)
                 {
