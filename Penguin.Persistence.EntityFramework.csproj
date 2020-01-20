@@ -18,9 +18,9 @@
     <EmbeddedResource Remove="packages\**" />
     <None Remove="Dist\**" />
     <None Remove="packages\**" />
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9MJL4F" />
-    <PackageReference Include="Penguin.Reflection" Version="4.0.9-T9MJL4F" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9MNBFG" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9QC72V" />
+    <PackageReference Include="Penguin.Reflection" Version="4.0.9-T9QC72V" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9QC72V" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2.1'))">
     <PackageReference Include="EntityFramework" Version="6.3.0" />
@@ -34,7 +34,7 @@
     <PackageReference Include="Microsoft.SqlServer.Compact" Version="4.0.8876.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
