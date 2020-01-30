@@ -10,6 +10,7 @@
     <Product>Penguin.Persistence.EntityFramework</Product>
     <AssemblyName>Penguin.Persistence.EntityFramework</AssemblyName>
     <RootNamespace>Penguin.Persistence.EntityFramework</RootNamespace>
+    <DocumentationFile>Penguin.Persistence.EntityFramework.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Dist\**" />
