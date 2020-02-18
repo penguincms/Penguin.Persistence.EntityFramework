@@ -1,5 +1,7 @@
-﻿using Penguin.Debugging;
-using Penguin.Entities;
+﻿using Penguin.Cms.Entities;
+using Penguin.Debugging;
+using Penguin.DependencyInjection.Abstractions.Attributes;
+using Penguin.DependencyInjection.Abstractions.Enums;
 using Penguin.Persistence.Abstractions;
 using Penguin.Persistence.Abstractions.Attributes;
 using Penguin.Persistence.Abstractions.Attributes.Relations;
@@ -18,9 +20,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Penguin.DependencyInjection.Abstractions.Attributes;
-using Penguin.Cms.Entities;
-using Penguin.DependencyInjection.Abstractions.Enums;
 
 namespace Penguin.Persistence.EntityFramework
 {

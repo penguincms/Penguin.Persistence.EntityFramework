@@ -18,7 +18,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
             EntityTypeConfiguration<T> entityTypeConfiguration = modelBuilder.Entity<T>();
 
             modelBuilder.Entity<T>().Map((ec) =>
-            {             
+            {
                 ec.ToTable(Attribute.Name);
             });
         }

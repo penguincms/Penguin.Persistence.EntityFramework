@@ -5,4 +5,3 @@
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>", Scope = "member", Target = "~M:Penguin.Persistence.EntityFramework.DynamicContextFactory.Create~Penguin.Persistence.EntityFramework.DynamicContext")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~P:Penguin.Persistence.EntityFramework.DynamicContext._DbSetTypes")]
-

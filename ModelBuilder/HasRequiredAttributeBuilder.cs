@@ -1,12 +1,11 @@
 ﻿using Penguin.Persistence.Abstractions;
 using Penguin.Persistence.Abstractions.Attributes.Relations;
+using Penguin.Persistence.Abstractions.Enums;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Linq;
 using System.Reflection;
-using Penguin.Persistence.Abstractions.Enums;
-using Penguin.Entities;
 
 namespace Penguin.Persistence.EntityFramework.ModelBuilder
 {
@@ -26,7 +25,6 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
             MethodInfo HasRequiredMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasRequired)).MakeGenericMethod(Member.PropertyType);
 
             object optionalNavigationPropertyConfiguration = HasRequiredMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(typeof(T), mapping.Left.Property) });
-
 
             if (mapping.Right.PropertyFound)
             {
