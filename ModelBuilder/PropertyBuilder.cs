@@ -59,7 +59,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
             propertyMethods = propertyMethods.Where(p =>
             {
                 Type t = p.GetParameters()[0].ParameterType.GetGenericArguments()[0].GetGenericArguments()[1];
-                return t.IsGenericParameter || t.IsAssignableFrom(Member.PropertyType);
+                return t.IsGenericParameter || t.IsAssignableFrom(this.Member.PropertyType);
             }).ToList();
 
             //Assuming we get a generic and a nongeneric, we choose the nongeneric
@@ -68,7 +68,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
                 propertyMethods = propertyMethods.Where(p =>
                 {
                     Type t = p.GetParameters()[0].ParameterType.GetGenericArguments()[0].GetGenericArguments()[1];
-                    return t.IsAssignableFrom(Member.PropertyType);
+                    return t.IsAssignableFrom(this.Member.PropertyType);
                 }).ToList();
 
                 propertyMethod = propertyMethods.Single();
@@ -76,21 +76,21 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
             else
             {
                 //Otherwise we assume we only have the generic so we use that
-                propertyMethod = propertyMethods.Single().MakeGenericMethod(Member.PropertyType);
+                propertyMethod = propertyMethods.Single().MakeGenericMethod(this.Member.PropertyType);
             }
 
-            return propertyMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(Member.ReflectedType, Member.Name) });
+            return propertyMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(this.Member.ReflectedType, this.Member.Name) });
         }
 
         public object PropertyMethod<TModel>(DbModelBuilder modelBuilder, string Name) where TModel : class
         {
             EntityTypeConfiguration<TModel> entityTypeConfiguration = modelBuilder.Entity<TModel>();
 
-            List<MethodInfo> propertyMethods = entityTypeConfiguration.GetType().GetMethods().Where(m => m.GetParameters().Count() == 1 && m.Name == Name && m.ContainsGenericParameters).ToList();
+            List<MethodInfo> propertyMethods = entityTypeConfiguration.GetType().GetMethods().Where(m => m.GetParameters().Length == 1 && m.Name == Name && m.ContainsGenericParameters).ToList();
 
-            MethodInfo propertyMethod = propertyMethods.Single().MakeGenericMethod(Member.PropertyType);
+            MethodInfo propertyMethod = propertyMethods.Single().MakeGenericMethod(this.Member.PropertyType);
 
-            return propertyMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(Member.ReflectedType, Member.Name) });
+            return propertyMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(this.Member.ReflectedType, this.Member.Name) });
         }
 
         protected static LambdaExpression PropertyExpression(Type sourceType, string propertyName, Type returnType = null)
@@ -106,8 +106,8 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
                 object[] parameters = new object[] { exp.Body, exp.Parameters };
 
                 MethodInfo LambdaExpressionCreate = typeof(Expression).GetMethods().Where(m => m.Name == nameof(Expression.Lambda))
-                                                                                   .Where(m => m.GetGenericArguments().Count() == 1)
-                                                                                   .Where(m => m.GetParameters().Count() == parameters.Length)
+                                                                                   .Where(m => m.GetGenericArguments().Length == 1)
+                                                                                   .Where(m => m.GetParameters().Length == parameters.Length)
                                                                                    .Where(m =>
                                                                                    {
                                                                                        ParameterInfo[] mparams = m.GetParameters();

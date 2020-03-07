@@ -19,7 +19,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             modelBuilder.Entity<T>().Map((ec) =>
             {
-                ec.ToTable(Attribute.Name);
+                ec.ToTable(this.Attribute.Name);
             });
         }
     }

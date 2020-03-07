@@ -17,13 +17,13 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
-            Mapping mapping = Attribute.GetMapping(Member);
+            Mapping mapping = this.Attribute.GetMapping(this.Member);
 
             //HasMany
-            object manyNavigationPropertyConfiguration = this.MapMany<T>(modelBuilder, Member);
+            object manyNavigationPropertyConfiguration = this.MapMany<T>(modelBuilder, this.Member);
 
             //With Many
-            object manyToManyNavigationPropertyConfiguration = this.WithMany(manyNavigationPropertyConfiguration, Member, mapping);
+            object manyToManyNavigationPropertyConfiguration = this.WithMany(manyNavigationPropertyConfiguration, this.Member, mapping);
 
             //Map
             Action<ManyToManyAssociationMappingConfiguration> configurationAction = new Action<ManyToManyAssociationMappingConfiguration>((config) =>

@@ -17,18 +17,18 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
-            Mapping mapping = Attribute.GetMapping(Member);
+            Mapping mapping = this.Attribute.GetMapping(this.Member);
 
             EntityTypeConfiguration<T> entityTypeConfiguration = modelBuilder.Entity<T>();
 
-            MethodInfo hasOptionalMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasOptional)).MakeGenericMethod(Member.PropertyType);
+            MethodInfo hasOptionalMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasOptional)).MakeGenericMethod(this.Member.PropertyType);
 
             object optionalNavigationPropertyConfiguration = hasOptionalMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(typeof(T), mapping.Left.Property) });
 
             //With Required
-            MethodInfo withRequiredMethod = optionalNavigationPropertyConfiguration.GetType().GetMethods().Single(m => m.GetParameters().Count() == 1 && m.Name == nameof(OptionalNavigationPropertyConfiguration<object, object>.WithRequired));
+            MethodInfo withRequiredMethod = optionalNavigationPropertyConfiguration.GetType().GetMethods().Single(m => m.GetParameters().Length == 1 && m.Name == nameof(OptionalNavigationPropertyConfiguration<object, object>.WithRequired));
 
-            withRequiredMethod.Invoke(optionalNavigationPropertyConfiguration, new[] { PropertyExpression(Member.PropertyType, mapping.Right.Property) });
+            withRequiredMethod.Invoke(optionalNavigationPropertyConfiguration, new[] { PropertyExpression(this.Member.PropertyType, mapping.Right.Property) });
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Penguin.Persistence.EntityFramework
         {
             get
             {
-                lock (SetTypeLock)
+                lock (this.SetTypeLock)
                 {
                     if (_DbSetTypes is null)
                     {
@@ -184,7 +184,10 @@ namespace Penguin.Persistence.EntityFramework
         /// </summary>
         /// <param name="entity">The entity to check</param>
         /// <returns>Whether or not the entity is attached</returns>
-        public bool IsAttached(object entity) => this.GetState(entity) != EntityState.Detached;
+        public bool IsAttached(object entity)
+        {
+            return this.GetState(entity) != EntityState.Detached;
+        }
 
         /// <summary>
         /// Attempts to recursively detatch the object. Not reliable on .Net Core
@@ -314,7 +317,7 @@ namespace Penguin.Persistence.EntityFramework
 
                 foreach (Type builderType in matchingTypes)
                 {
-                    object builder = Activator.CreateInstance(builderType, new object[] { t, ConnectionInfo });
+                    object builder = Activator.CreateInstance(builderType, new object[] { t, this.ConnectionInfo });
 
                     MethodInfo buildMethod = builderType.GetMethod(nameof(PropertyBuilder<PersistenceAttribute>.Build));
 
@@ -334,7 +337,7 @@ namespace Penguin.Persistence.EntityFramework
             {
                 foreach (PersistenceAttribute a in p.GetCustomAttributes<PersistenceAttribute>())
                 {
-                    MapProperty(modelBuilder, t, p, a);
+                    this.MapProperty(modelBuilder, t, p, a);
                 }
             }
 
@@ -349,13 +352,13 @@ namespace Penguin.Persistence.EntityFramework
 
                 if (p.GetCustomAttribute<MappedAttribute>() is null && !DefinedAttributes.Any())
                 {
-                    MapProperty(modelBuilder, t, p, new NotMappedAttribute());
+                    this.MapProperty(modelBuilder, t, p, new NotMappedAttribute());
                 }
                 else
                 {
                     foreach (PersistenceAttribute a in DefinedAttributes)
                     {
-                        MapProperty(modelBuilder, t, p, a);
+                        this.MapProperty(modelBuilder, t, p, a);
                     }
                 }
             }
@@ -370,7 +373,7 @@ namespace Penguin.Persistence.EntityFramework
                 {
                     int CommandTimeout = 300;
 
-                    Database.CommandTimeout = CommandTimeout;
+                    this.Database.CommandTimeout = CommandTimeout;
 
                     IObjectContextAdapter adapter = this;
                     ObjectContext objectContext = adapter.ObjectContext;
@@ -394,7 +397,7 @@ namespace Penguin.Persistence.EntityFramework
         /// <param name="modelBuilder">The provided modelbuilder</param>
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
-            List<Type> allTypes = DbSetTypes.ToList();
+            List<Type> allTypes = this.DbSetTypes.ToList();
 
             int i = 0;
 
@@ -473,7 +476,7 @@ namespace Penguin.Persistence.EntityFramework
 
             foreach (Type builderType in matchingTypes)
             {
-                object builder = Activator.CreateInstance(builderType, new object[] { p, ConnectionInfo });
+                object builder = Activator.CreateInstance(builderType, new object[] { p, this.ConnectionInfo });
 
                 MethodInfo buildMethod = builderType.GetMethod(nameof(PropertyBuilder<PersistenceAttribute>.Build));
 
