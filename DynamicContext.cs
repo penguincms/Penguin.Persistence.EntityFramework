@@ -65,34 +65,34 @@ namespace Penguin.Persistence.EntityFramework
         }
 
         /// <summary>
-        /// When calling to detatch an object this enum specifies the requirement for the object to be detatched.
+        /// When calling to detach an object this enum specifies the requirement for the object to be detached.
         /// Not reliable
         /// </summary>
         [Flags]
-        public enum DetatchModes
+        public enum DetachModes
         {
             /// <summary>
-            /// Detatches all objects
+            /// Detaches all objects
             /// </summary>
             All = 0,
 
             /// <summary>
-            /// Detatches only objects in the "added" state
+            /// Detaches only objects in the "added" state
             /// </summary>
             Added = 1,
 
             /// <summary>
-            /// Detatches only objects in the "Modified" state
+            /// Detaches only objects in the "Modified" state
             /// </summary>
             Modified = 2,
 
             /// <summary>
-            /// Detatches only objects with a non-zero ID field
+            /// Detaches only objects with a non-zero ID field
             /// </summary>
             NonZeroId = 4,
 
             /// <summary>
-            /// detatches only objects with a zero ID field
+            /// detaches only objects with a zero ID field
             /// </summary>
             ZeroId = 8
         }
@@ -111,7 +111,7 @@ namespace Penguin.Persistence.EntityFramework
         /// </summary>
         /// <param name="connectionInfo">The connection info for the database</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
-        public DynamicContext(PersistenceConnectionInfo connectionInfo) : base(GetDbConnection(connectionInfo), true)
+        public DynamicContext(PersistenceConnectionInfo connectionInfo) : base(GetDbConnection(connectionInfo ?? throw new ArgumentNullException(nameof(connectionInfo))), true)
         {
             this.ConnectionInfo = connectionInfo;
 
@@ -190,13 +190,13 @@ namespace Penguin.Persistence.EntityFramework
         }
 
         /// <summary>
-        /// Attempts to recursively detatch the object. Not reliable on .Net Core
+        /// Attempts to recursively detach the object. Not reliable on .Net Core
         /// </summary>
-        /// <param name="e">The entity to detatch</param>
-        /// <param name="mode">The mode specifying the requirements for detatchment</param>
-        /// <param name="Cascade">If true, will detatch recursively to children</param>
-        /// <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
-        public void TryDetach(KeyedObject e, DetatchModes mode = DetatchModes.All, bool Cascade = false, List<KeyedObject> Detatched = null)
+        /// <param name="e">The entity to detach</param>
+        /// <param name="mode">The mode specifying the requirements for detachment</param>
+        /// <param name="Cascade">If true, will detach recursively to children</param>
+        /// <param name="Detatched">A list of objects that have already been detached (for recursion). Leave empty</param>
+        public void TryDetach(KeyedObject e, DetachModes mode = DetachModes.All, bool Cascade = false, List<KeyedObject> Detatched = null)
         {
             if (Detatched is null)
             {
@@ -225,24 +225,24 @@ namespace Penguin.Persistence.EntityFramework
             {
                 bool PassesMode = true;
 
-                if (mode != DetatchModes.All)
+                if (mode != DetachModes.All)
                 {
-                    if (mode.HasFlag(DetatchModes.Added))
+                    if (mode.HasFlag(DetachModes.Added))
                     {
                         PassesMode = PassesMode && (this.GetState(e) == EntityState.Added);
                     }
 
-                    if (mode.HasFlag(DetatchModes.Modified))
+                    if (mode.HasFlag(DetachModes.Modified))
                     {
                         PassesMode = PassesMode && (this.GetState(e) == EntityState.Modified);
                     }
 
-                    if (mode.HasFlag(DetatchModes.ZeroId))
+                    if (mode.HasFlag(DetachModes.ZeroId))
                     {
                         PassesMode = PassesMode && e._Id == 0;
                     }
 
-                    if (mode.HasFlag(DetatchModes.NonZeroId))
+                    if (mode.HasFlag(DetachModes.NonZeroId))
                     {
                         PassesMode = PassesMode && e._Id != 0;
                     }
@@ -256,15 +256,18 @@ namespace Penguin.Persistence.EntityFramework
         }
 
         /// <summary>
-        /// Attempts to detatch only the children of the object given
+        /// Attempts to detach only the children of the object given
         /// </summary>
-        /// <param name="e">The entity to detatch</param>
-        /// <param name="mode">The mode specifying the requirements for detatchment</param>
-        /// <param name="Cascade">If true, will detatch recursively to children</param>
-        /// <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
-        public void TryDetachChildren(KeyedObject e, DetatchModes mode = DetatchModes.All, bool Cascade = false, List<KeyedObject> Detatched = null)
+        /// <param name="e">The entity to detach</param>
+        /// <param name="mode">The mode specifying the requirements for detachment</param>
+        /// <param name="Cascade">If true, will detach recursively to children</param>
+        /// <param name="Detatched">A list of objects that have already been detached (for recursion). Leave empty</param>
+        public void TryDetachChildren(KeyedObject e, DetachModes mode = DetachModes.All, bool Cascade = false, List<KeyedObject> Detatched = null)
         {
-            Contract.Requires(e != null);
+            if (e is null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
 
             if (Detatched is null)
             {

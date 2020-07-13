@@ -25,35 +25,35 @@
             Returns a list of all types that will be added as DbSet to the context
             </summary>
         </member>
-        <member name="T:Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes">
+        <member name="T:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes">
             <summary>
-            When calling to detatch an object this enum specifies the requirement for the object to be detatched.
+            When calling to detach an object this enum specifies the requirement for the object to be detached.
             Not reliable
             </summary>
         </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes.All">
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.All">
             <summary>
-            Detatches all objects
+            Detaches all objects
             </summary>
         </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes.Added">
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.Added">
             <summary>
-            Detatches only objects in the "added" state
+            Detaches only objects in the "added" state
             </summary>
         </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes.Modified">
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.Modified">
             <summary>
-            Detatches only objects in the "Modified" state
+            Detaches only objects in the "Modified" state
             </summary>
         </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes.NonZeroId">
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.NonZeroId">
             <summary>
-            Detatches only objects with a non-zero ID field
+            Detaches only objects with a non-zero ID field
             </summary>
         </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes.ZeroId">
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.ZeroId">
             <summary>
-            detatches only objects with a zero ID field
+            detaches only objects with a zero ID field
             </summary>
         </member>
         <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.#ctor(Penguin.Persistence.Abstractions.PersistenceConnectionInfo)">
@@ -89,7 +89,7 @@
             <param name="entity">The entity to check</param>
             <returns>Whether or not the entity is attached</returns>
         </member>
-        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetach(Penguin.Persistence.Abstractions.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.KeyedObject})">
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetach(Penguin.Persistence.Abstractions.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetachModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.KeyedObject})">
             <summary>
             Attempts to recursively detatch the object. Not reliable on .Net Core
             </summary>
@@ -98,14 +98,14 @@
             <param name="Cascade">If true, will detatch recursively to children</param>
             <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
         </member>
-        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetachChildren(Penguin.Persistence.Abstractions.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetatchModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.KeyedObject})">
+        <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetachChildren(Penguin.Persistence.Abstractions.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetachModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.KeyedObject})">
             <summary>
-            Attempts to detatch only the children of the object given
+            Attempts to detach only the children of the object given
             </summary>
-            <param name="e">The entity to detatch</param>
-            <param name="mode">The mode specifying the requirements for detatchment</param>
-            <param name="Cascade">If true, will detatch recursively to children</param>
-            <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
+            <param name="e">The entity to detach</param>
+            <param name="mode">The mode specifying the requirements for detachment</param>
+            <param name="Cascade">If true, will detach recursively to children</param>
+            <param name="Detatched">A list of objects that have already been detached (for recursion). Leave empty</param>
         </member>
         <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.OnModelCreating(System.Data.Entity.DbModelBuilder)">
             <summary>
