@@ -91,12 +91,12 @@
         </member>
         <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetach(Penguin.Persistence.Abstractions.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetachModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.KeyedObject})">
             <summary>
-            Attempts to recursively detatch the object. Not reliable on .Net Core
+            Attempts to recursively detach the object. Not reliable on .Net Core
             </summary>
-            <param name="e">The entity to detatch</param>
-            <param name="mode">The mode specifying the requirements for detatchment</param>
-            <param name="Cascade">If true, will detatch recursively to children</param>
-            <param name="Detatched">A list of objects that have already been detatched (for recursion). Leave empty</param>
+            <param name="e">The entity to detach</param>
+            <param name="mode">The mode specifying the requirements for detachment</param>
+            <param name="Cascade">If true, will detach recursively to children</param>
+            <param name="Detatched">A list of objects that have already been detached (for recursion). Leave empty</param>
         </member>
         <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.TryDetachChildren(Penguin.Persistence.Abstractions.KeyedObject,Penguin.Persistence.EntityFramework.DynamicContext.DetachModes,System.Boolean,System.Collections.Generic.List{Penguin.Persistence.Abstractions.KeyedObject})">
             <summary>
