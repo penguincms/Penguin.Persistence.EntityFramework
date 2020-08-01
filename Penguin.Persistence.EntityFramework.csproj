@@ -19,9 +19,9 @@
     <EmbeddedResource Remove="packages\**" />
     <None Remove="Dist\**" />
     <None Remove="packages\**" />
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.0.1-T9ZCSSJ" />
-    <PackageReference Include="Penguin.Reflection" Version="5.0.1-T9ZCSSJ" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.1-T9ZCSSJ" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.0.1-T9ZTQVZ" />
+    <PackageReference Include="Penguin.Reflection" Version="5.0.1-T9ZTQVZ" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.1-T9ZTQVZ" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2.1'))">
     <PackageReference Include="EntityFramework" Version="6.3.0" />
