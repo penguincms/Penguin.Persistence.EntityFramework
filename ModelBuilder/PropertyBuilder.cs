@@ -101,7 +101,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             LambdaExpression exp = Expression.Lambda(prop, param);
 
-            if (returnType != null)
+            if (returnType != null && exp.ReturnType != returnType)
             {
                 object[] parameters = new object[] { exp.Body, exp.Parameters };
 

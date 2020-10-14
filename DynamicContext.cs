@@ -379,6 +379,7 @@ namespace Penguin.Persistence.EntityFramework
                     this.Database.CommandTimeout = CommandTimeout;
 
                     IObjectContextAdapter adapter = this;
+                    //ToDo: Dont use ICollection inheriting properties
                     ObjectContext objectContext = adapter.ObjectContext;
 
                     objectContext.CommandTimeout = CommandTimeout; // value in seconds

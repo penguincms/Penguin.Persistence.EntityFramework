@@ -21,7 +21,7 @@
     <None Remove="packages\**" />
     <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.0.1-TA2OIRX" />
     <PackageReference Include="Penguin.Reflection" Version="5.0.1-TA2OIRX" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.1-TA2VU4J" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.1-TA3REW0" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2.1'))">
     <PackageReference Include="EntityFramework" Version="6.3.0" />
