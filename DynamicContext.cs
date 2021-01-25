@@ -100,9 +100,9 @@ namespace Penguin.Persistence.EntityFramework
         private static DbConnection GetDbConnection(PersistenceConnectionInfo connectionInfo)
         {
 #if NET48
-            return connectionInfo?.ProviderType == ProviderType.SQLCE ? new System.Data.SqlServerCe.SqlCeConnection(connectionInfo.ConnectionString) as DbConnection : new SqlConnection(connectionInfo.ConnectionString) as DbConnection;
+            return connectionInfo?.ProviderType == ProviderType.SQLCE ? new System.Data.SqlServerCe.SqlCeConnection(connectionInfo.ConnectionString) : new SqlConnection(connectionInfo.ConnectionString) as DbConnection;
 #else
-            return new SqlConnection(connectionInfo.ConnectionString) as DbConnection;
+            return new SqlConnection(connectionInfo.ConnectionString);
 #endif
         }
 
