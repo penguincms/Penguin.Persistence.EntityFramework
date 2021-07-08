@@ -2,7 +2,7 @@
   <Import Project="Penguin.Projects.Shared\Penguin.Projects.Shared.csproj" />
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;net48;netstandard2.0</TargetFrameworks>
-    <PackageProjectUrl>https://github.com/penguincms/Penguin.Persistence.EntityFramework</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/PenguinCMS/Penguin.Persistence.EntityFramework</PackageProjectUrl>
     <Version>5.0.5</Version>
     <Description>Provides a DynamicContext class that builds a schema dynamically using all types found in the assembly that inherit from Penguin.Entities.Entity, allowing for modularized applications without the need for a concrete context. Works as a PersistenceProvider for Penguin.Persistance.Abstraction repositories allowing for DI injected repositories with no EF references</Description>
     <PackageId>Penguin.Persistence.EntityFramework</PackageId>
@@ -25,6 +25,7 @@
     <ProjectReference Include="..\Penguin.Entities.Abstractions\Penguin.Entities.Abstractions.Local.csproj" />
     <ProjectReference Include="..\Penguin.Extensions.Exceptions\Penguin.Extensions.Exceptions.Local.csproj" />
     <ProjectReference Include="..\Penguin.Extensions.String\Penguin.Extensions.String.Local.csproj" />
+    <ProjectReference Include="..\Penguin.FileStreams\Penguin.FileStreams.Local.csproj" />
     <ProjectReference Include="..\Penguin.Persistence.Abstractions\Penguin.Persistence.Abstractions.Local.csproj" />
     <ProjectReference Include="..\Penguin.Reflection\Penguin.Reflection.Local.csproj" />
     <ProjectReference Include="..\Penguin.Reflection.Abstractions\Penguin.Reflection.Abstractions.Local.csproj" />

@@ -35,7 +35,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
             return declaredProperty;
         }
 
-        public object MapMany<TModel>(System.Data.Entity.DbModelBuilder modelBuilder, PropertyInfo p, Type propertyOverrideType = null) where TModel : class
+        public static object MapMany<TModel>(System.Data.Entity.DbModelBuilder modelBuilder, PropertyInfo p, Type propertyOverrideType = null) where TModel : class
         {
             Type t = typeof(TModel);
 
@@ -131,7 +131,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
             return exp;
         }
 
-        protected object WithMany(object manyNavigationPropertyConfiguration, PropertyInfo p, Mapping mapping)
+        protected static object WithMany(object manyNavigationPropertyConfiguration, PropertyInfo p, Mapping mapping)
         {
             Type sourceType = p.PropertyType;
 

@@ -97,20 +97,18 @@ namespace Penguin.Persistence.EntityFramework
             ZeroId = 8
         }
 
-        private static DbConnection GetDbConnection(PersistenceConnectionInfo connectionInfo)
-        {
+        private static DbConnection GetDbConnection(PersistenceConnectionInfo connectionInfo) =>
 #if NET48
-            return connectionInfo?.ProviderType == ProviderType.SQLCE ? new System.Data.SqlServerCe.SqlCeConnection(connectionInfo.ConnectionString) : new SqlConnection(connectionInfo.ConnectionString) as DbConnection;
+            connectionInfo?.ProviderType == ProviderType.SQLCE ? new System.Data.SqlServerCe.SqlCeConnection(connectionInfo.ConnectionString) : new SqlConnection(connectionInfo.ConnectionString) as DbConnection;
 #else
-            return new SqlConnection(connectionInfo.ConnectionString);
+            new SqlConnection(connectionInfo.ConnectionString);
 #endif
-        }
+
 
         /// <summary>
         /// Creates a new instance of this dynamic context using the provided connection info
         /// </summary>
         /// <param name="connectionInfo">The connection info for the database</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
         public DynamicContext(PersistenceConnectionInfo connectionInfo) : base(GetDbConnection(connectionInfo ?? throw new ArgumentNullException(nameof(connectionInfo))), true)
         {
             this.ConnectionInfo = connectionInfo;
@@ -145,12 +143,9 @@ namespace Penguin.Persistence.EntityFramework
                 throw new ArgumentNullException(nameof(entity));
             }
 
-            if (((IObjectContextAdapter)this).ObjectContext.ObjectStateManager.TryGetObjectStateEntry(entity, out ObjectStateEntry entry))
-            {
-                return entry.State;
-            }
-
-            return EntityState.Detached;
+            return ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager.TryGetObjectStateEntry(entity, out ObjectStateEntry entry)
+                ? entry.State
+                : EntityState.Detached;
         }
 
         /// <summary>
@@ -367,7 +362,6 @@ namespace Penguin.Persistence.EntityFramework
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
         internal void SetUp()
         {
             if (this.ConnectionInfo.ProviderType != ProviderType.SQLCE)
@@ -416,25 +410,13 @@ namespace Penguin.Persistence.EntityFramework
                     bool isSupportedCollection = false;
 
                     Type gType;
-                    if ((gType = p.PropertyType.GetGenericArguments().FirstOrDefault()) != null)
-                    {
-                        isSupportedCollection = typeof(ICollection<>).MakeGenericType(gType).IsAssignableFrom(p.PropertyType);
-                    }
-                    else
-                    {
-                        isSupportedCollection = typeof(ICollection).IsAssignableFrom(p.PropertyType);
-                    }
+                    isSupportedCollection = (gType = p.PropertyType.GetGenericArguments().FirstOrDefault()) != null
+                        ? typeof(ICollection<>).MakeGenericType(gType).IsAssignableFrom(p.PropertyType)
+                        : typeof(ICollection).IsAssignableFrom(p.PropertyType);
 
                     if (propertyType.IsCollection())
                     {
-                        if (propertyType.IsArray)
-                        {
-                            propertyType = propertyType.GetElementType();
-                        }
-                        else
-                        {
-                            propertyType = gType;
-                        }
+                        propertyType = propertyType.IsArray ? propertyType.GetElementType() : gType;
 
                         if (propertyType is null)
                         {

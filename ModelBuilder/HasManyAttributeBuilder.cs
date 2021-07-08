@@ -14,7 +14,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
-            this.MapMany<T>(modelBuilder, this.Member);
+            MapMany<T>(modelBuilder, this.Member);
         }
     }
 }
