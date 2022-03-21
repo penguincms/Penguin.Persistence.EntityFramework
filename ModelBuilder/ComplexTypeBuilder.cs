@@ -12,9 +12,6 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
         {
         }
 
-        public override void Build<T>(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.ComplexType<T>();
-        }
+        public override void Build<T>(DbModelBuilder modelBuilder) => modelBuilder.ComplexType<T>();
     }
 }

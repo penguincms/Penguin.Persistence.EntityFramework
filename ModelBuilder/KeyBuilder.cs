@@ -13,9 +13,6 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
         {
         }
 
-        public override void Build<T>(DbModelBuilder modelBuilder)
-        {
-            this.PropertyMethod<T>(modelBuilder, nameof(EntityTypeConfiguration<T>.HasKey));
-        }
+        public override void Build<T>(DbModelBuilder modelBuilder) => this.PropertyMethod<T>(modelBuilder, nameof(EntityTypeConfiguration<T>.HasKey));
     }
 }

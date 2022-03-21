@@ -179,10 +179,7 @@ namespace Penguin.Persistence.EntityFramework
         /// </summary>
         /// <param name="entity">The entity to check</param>
         /// <returns>Whether or not the entity is attached</returns>
-        public bool IsAttached(object entity)
-        {
-            return this.GetState(entity) != EntityState.Detached;
-        }
+        public bool IsAttached(object entity) => this.GetState(entity) != EntityState.Detached;
 
         /// <summary>
         /// Attempts to recursively detach the object. Not reliable on .Net Core

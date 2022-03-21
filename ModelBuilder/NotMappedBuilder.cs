@@ -13,9 +13,6 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
         {
         }
 
-        public override void Build<T>(DbModelBuilder modelBuilder)
-        {
-            this.GetType().GetMethod(nameof(NotMappedBuilder.PropertyMethod)).MakeGenericMethod(this.Member.DeclaringType).Invoke(this, new object[] { modelBuilder, nameof(EntityTypeConfiguration<T>.Ignore) });
-        }
+        public override void Build<T>(DbModelBuilder modelBuilder) => this.GetType().GetMethod(nameof(NotMappedBuilder.PropertyMethod)).MakeGenericMethod(this.Member.DeclaringType).Invoke(this, new object[] { modelBuilder, nameof(EntityTypeConfiguration<T>.Ignore) });
     }
 }
