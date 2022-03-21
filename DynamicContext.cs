@@ -1,4 +1,4 @@
-﻿using Penguin.Cms.Entities;
+using Penguin.Cms.Entities;
 using Penguin.Debugging;
 using Penguin.DependencyInjection.Abstractions.Attributes;
 using Penguin.DependencyInjection.Abstractions.Enums;
@@ -103,7 +103,6 @@ namespace Penguin.Persistence.EntityFramework
 #else
             new SqlConnection(connectionInfo.ConnectionString);
 #endif
-
 
         /// <summary>
         /// Creates a new instance of this dynamic context using the provided connection info
