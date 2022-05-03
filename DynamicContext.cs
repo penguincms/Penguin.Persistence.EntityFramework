@@ -55,7 +55,7 @@ namespace Penguin.Persistence.EntityFramework
 
                         foreach (Type t in GetDynamicContextTypes())
                         {
-                            _DbSetTypes.Add(t);
+                            _ = _DbSetTypes.Add(t);
                         }
                     }
 
@@ -123,7 +123,7 @@ namespace Penguin.Persistence.EntityFramework
         {
             foreach (Type t in TypeFactory.GetDerivedTypes(typeof(Entity)))
             {
-                if (!t.IsAbstract)
+                if (!t.IsAbstract && t.GetCustomAttribute<NotMappedAttribute>() is null)
                 {
                     yield return t;
                 }
@@ -137,12 +137,9 @@ namespace Penguin.Persistence.EntityFramework
         /// <returns>The state of the object</returns>
         public EntityState GetState(object entity)
         {
-            if (entity == null)
-            {
-                throw new ArgumentNullException(nameof(entity));
-            }
-
-            return ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager.TryGetObjectStateEntry(entity, out ObjectStateEntry entry)
+            return entity == null
+                ? throw new ArgumentNullException(nameof(entity))
+                : ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager.TryGetObjectStateEntry(entity, out ObjectStateEntry entry)
                 ? entry.State
                 : EntityState.Detached;
         }
@@ -178,7 +175,10 @@ namespace Penguin.Persistence.EntityFramework
         /// </summary>
         /// <param name="entity">The entity to check</param>
         /// <returns>Whether or not the entity is attached</returns>
-        public bool IsAttached(object entity) => this.GetState(entity) != EntityState.Detached;
+        public bool IsAttached(object entity)
+        {
+            return this.GetState(entity) != EntityState.Detached;
+        }
 
         /// <summary>
         /// Attempts to recursively detach the object. Not reliable on .Net Core
@@ -278,7 +278,7 @@ namespace Penguin.Persistence.EntityFramework
                 {
                     this.TryDetach(o as KeyedObject, mode, Cascade, Detatched);
                 }
-                else if (!((o as IEnumerable) is null))
+                else if (!(o as IEnumerable is null))
                 {
                     IEnumerable list = o as IEnumerable;
                     foreach (object lo in list.Cast<object>().ToList())
@@ -317,14 +317,14 @@ namespace Penguin.Persistence.EntityFramework
 
                     buildMethod = buildMethod.MakeGenericMethod(t);
 
-                    buildMethod.Invoke(builder, new object[] { modelBuilder });
+                    _ = buildMethod.Invoke(builder, new object[] { modelBuilder });
                 }
             }
 
             //Register any entities that might not already be added to the context
             if (!isComplexType && typeof(Entity).IsAssignableFrom(t))
             {
-                modelBuilder.Entity<T>();
+                _ = modelBuilder.Entity<T>();
             }
 
             foreach (PropertyInfo p in properties)
@@ -446,7 +446,7 @@ namespace Penguin.Persistence.EntityFramework
                     }
                 }
 
-                mapType.Invoke(this, new object[] { modelBuilder, properties });
+                _ = mapType.Invoke(this, new object[] { modelBuilder, properties });
             }
 
             base.OnModelCreating(modelBuilder);
@@ -464,7 +464,7 @@ namespace Penguin.Persistence.EntityFramework
 
                 buildMethod = buildMethod.MakeGenericMethod(t);
 
-                buildMethod.Invoke(builder, new object[] { modelBuilder });
+                _ = buildMethod.Invoke(builder, new object[] { modelBuilder });
             }
         }
 
