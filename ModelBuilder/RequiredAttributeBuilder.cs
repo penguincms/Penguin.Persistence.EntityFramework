@@ -19,7 +19,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             MethodInfo RequiredMethod = propertyConfiguration.GetType().GetMethod(nameof(PrimitivePropertyConfiguration.IsRequired));
 
-            RequiredMethod.Invoke(propertyConfiguration, System.Array.Empty<object>());
+            _ = RequiredMethod.Invoke(propertyConfiguration, System.Array.Empty<object>());
         }
     }
 }

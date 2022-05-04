@@ -22,9 +22,15 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             EntityTypeConfiguration<T> entityTypeConfiguration = modelBuilder.Entity<T>();
 
-            MethodInfo HasRequiredMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasRequired)).MakeGenericMethod(this.Member.PropertyType);
+            MethodInfo HasRequiredMethod = entityTypeConfiguration.GetType()
+                                                                  .GetMethod(nameof(EntityTypeConfiguration<object>.HasRequired))
+                                                                  .MakeGenericMethod(this.Member.PropertyType);
 
-            object optionalNavigationPropertyConfiguration = HasRequiredMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(typeof(T), mapping.Left.Property) });
+            object optionalNavigationPropertyConfiguration = HasRequiredMethod.Invoke(entityTypeConfiguration,
+                                                                                    new[] {
+                                                                                        PropertyExpression(typeof(T),
+                                                                                        mapping.Left.Property)
+                                                                                    });
 
             if (mapping.Right.PropertyFound)
             {
@@ -37,7 +43,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
                 //With Required
                 MethodInfo withOptionalDependentMethod = optionalNavigationPropertyConfiguration.GetType().GetMethods().Single(m => m.GetParameters().Length == 1 && m.Name == nameof(OptionalNavigationPropertyConfiguration<object, object>.WithOptionalDependent));
 
-                withOptionalDependentMethod.Invoke(optionalNavigationPropertyConfiguration, new[] { PropertyExpression(this.Member.PropertyType, mapping.Right.Property) });
+                _ = withOptionalDependentMethod.Invoke(optionalNavigationPropertyConfiguration, new[] { PropertyExpression(this.Member.PropertyType, mapping.Right.Property) });
             }
         }
     }

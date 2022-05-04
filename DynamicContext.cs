@@ -28,7 +28,7 @@ namespace Penguin.Persistence.EntityFramework
     /// Uses Penguin.Persistence.Abstractions as attributes to define relationships between entities
     /// </summary>
     [RegisterThroughMostDerived(typeof(DbContext), ServiceLifetime.Transient)]
-    public class DynamicContext : DbContext
+    public partial class DynamicContext : DbContext
     {
         /// <summary>
         /// The DB Connection info that was used while creating this object
@@ -62,39 +62,6 @@ namespace Penguin.Persistence.EntityFramework
                     return _DbSetTypes;
                 }
             }
-        }
-
-        /// <summary>
-        /// When calling to detach an object this enum specifies the requirement for the object to be detached.
-        /// Not reliable
-        /// </summary>
-        [Flags]
-        public enum DetachModes
-        {
-            /// <summary>
-            /// Detaches all objects
-            /// </summary>
-            All = 0,
-
-            /// <summary>
-            /// Detaches only objects in the "added" state
-            /// </summary>
-            Added = 1,
-
-            /// <summary>
-            /// Detaches only objects in the "Modified" state
-            /// </summary>
-            Modified = 2,
-
-            /// <summary>
-            /// Detaches only objects with a non-zero ID field
-            /// </summary>
-            NonZeroId = 4,
-
-            /// <summary>
-            /// detaches only objects with a zero ID field
-            /// </summary>
-            ZeroId = 8
         }
 
         private static DbConnection GetDbConnection(PersistenceConnectionInfo connectionInfo) =>

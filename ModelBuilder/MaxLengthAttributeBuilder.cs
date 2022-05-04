@@ -20,7 +20,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
             MethodInfo HasMaxLengthMethod = propertyConfiguration.GetType().GetMethod(nameof(BinaryPropertyConfiguration.HasMaxLength));
 
-            HasMaxLengthMethod.Invoke(propertyConfiguration, new object[] { this.PersistenceConnectionInfo.ProviderType == ProviderType.SQLCE ? Math.Min(this.Attribute.Length, 4000) : this.Attribute.Length });
+            _ = HasMaxLengthMethod.Invoke(propertyConfiguration, new object[] { this.PersistenceConnectionInfo.ProviderType == ProviderType.SQLCE ? Math.Min(this.Attribute.Length, 4000) : this.Attribute.Length });
         }
     }
 }

@@ -28,14 +28,14 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
             //Map
             Action<ManyToManyAssociationMappingConfiguration> configurationAction = new Action<ManyToManyAssociationMappingConfiguration>((config) =>
             {
-                config.MapLeftKey(mapping.Left.Key);
-                config.MapRightKey(mapping.Right.Key);
-                config.ToTable(mapping.TableName);
+                _ = config.MapLeftKey(mapping.Left.Key);
+                _ = config.MapRightKey(mapping.Right.Key);
+                _ = config.ToTable(mapping.TableName);
             });
 
             MethodInfo MapMethod = manyToManyNavigationPropertyConfiguration.GetType().GetMethods().Single(m => m.Name == nameof(ManyToManyNavigationPropertyConfiguration<object, object>.Map));
 
-            MapMethod.Invoke(manyToManyNavigationPropertyConfiguration, new[] { configurationAction });
+            _ = MapMethod.Invoke(manyToManyNavigationPropertyConfiguration, new[] { configurationAction });
         }
     }
 }

@@ -25,37 +25,6 @@
             Returns a list of all types that will be added as DbSet to the context
             </summary>
         </member>
-        <member name="T:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes">
-            <summary>
-            When calling to detach an object this enum specifies the requirement for the object to be detached.
-            Not reliable
-            </summary>
-        </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.All">
-            <summary>
-            Detaches all objects
-            </summary>
-        </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.Added">
-            <summary>
-            Detaches only objects in the "added" state
-            </summary>
-        </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.Modified">
-            <summary>
-            Detaches only objects in the "Modified" state
-            </summary>
-        </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.NonZeroId">
-            <summary>
-            Detaches only objects with a non-zero ID field
-            </summary>
-        </member>
-        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.ZeroId">
-            <summary>
-            detaches only objects with a zero ID field
-            </summary>
-        </member>
         <member name="M:Penguin.Persistence.EntityFramework.DynamicContext.#ctor(Penguin.Persistence.Abstractions.PersistenceConnectionInfo)">
             <summary>
             Creates a new instance of this dynamic context using the provided connection info
@@ -112,6 +81,37 @@
             Calls the code that dynamically attaches and maps objects
             </summary>
             <param name="modelBuilder">The provided modelbuilder</param>
+        </member>
+        <member name="T:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes">
+            <summary>
+            When calling to detach an object this enum specifies the requirement for the object to be detached.
+            Not reliable
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.All">
+            <summary>
+            Detaches all objects
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.Added">
+            <summary>
+            Detaches only objects in the "added" state
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.Modified">
+            <summary>
+            Detaches only objects in the "Modified" state
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.NonZeroId">
+            <summary>
+            Detaches only objects with a non-zero ID field
+            </summary>
+        </member>
+        <member name="F:Penguin.Persistence.EntityFramework.DynamicContext.DetachModes.ZeroId">
+            <summary>
+            detaches only objects with a zero ID field
+            </summary>
         </member>
         <member name="T:Penguin.Persistence.EntityFramework.DynamicContextFactory">
             <summary>

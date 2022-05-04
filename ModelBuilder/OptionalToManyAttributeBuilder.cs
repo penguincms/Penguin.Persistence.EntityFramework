@@ -26,7 +26,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
             //With Many
 
             //ManyNavigationPropertyConfiguration
-            WithMany(optionalNavigationPropertyConfiguration, this.Member, mapping);
+            _ = WithMany(optionalNavigationPropertyConfiguration, this.Member, mapping);
         }
     }
 }
