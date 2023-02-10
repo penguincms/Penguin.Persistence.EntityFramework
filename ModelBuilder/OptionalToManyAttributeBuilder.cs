@@ -15,18 +15,18 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
-            Mapping mapping = this.Attribute.GetMapping(this.Member);
+            Mapping mapping = Attribute.GetMapping(Member);
 
             EntityTypeConfiguration<T> entityTypeConfiguration = modelBuilder.Entity<T>();
 
-            MethodInfo hasOptionalMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasOptional)).MakeGenericMethod(this.Member.PropertyType);
+            MethodInfo hasOptionalMethod = entityTypeConfiguration.GetType().GetMethod(nameof(EntityTypeConfiguration<object>.HasOptional)).MakeGenericMethod(Member.PropertyType);
 
             object optionalNavigationPropertyConfiguration = hasOptionalMethod.Invoke(entityTypeConfiguration, new[] { PropertyExpression(typeof(T), mapping.Left.Property) });
 
             //With Many
 
             //ManyNavigationPropertyConfiguration
-            _ = WithMany(optionalNavigationPropertyConfiguration, this.Member, mapping);
+            _ = WithMany(optionalNavigationPropertyConfiguration, Member, mapping);
         }
     }
 }

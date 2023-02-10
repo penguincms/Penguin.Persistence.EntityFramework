@@ -16,11 +16,11 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
-            object propertyConfiguration = this.Property<T>(modelBuilder);
+            object propertyConfiguration = Property<T>(modelBuilder);
 
             MethodInfo HasColumnAnnotationMethod = propertyConfiguration.GetType().GetMethod(nameof(PrimitivePropertyConfiguration.HasColumnAnnotation));
 
-            _ = HasColumnAnnotationMethod.Invoke(propertyConfiguration, new object[] { "Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute("IX_" + this.Member.Name) { IsUnique = this.Attribute.IsUnique }) });
+            _ = HasColumnAnnotationMethod.Invoke(propertyConfiguration, new object[] { "Index", new IndexAnnotation(new System.ComponentModel.DataAnnotations.Schema.IndexAttribute("IX_" + Member.Name) { IsUnique = Attribute.IsUnique }) });
         }
     }
 }

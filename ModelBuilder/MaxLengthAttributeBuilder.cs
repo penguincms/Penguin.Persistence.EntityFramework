@@ -16,11 +16,11 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
-            object propertyConfiguration = this.Property<T>(modelBuilder);
+            object propertyConfiguration = Property<T>(modelBuilder);
 
             MethodInfo HasMaxLengthMethod = propertyConfiguration.GetType().GetMethod(nameof(BinaryPropertyConfiguration.HasMaxLength));
 
-            _ = HasMaxLengthMethod.Invoke(propertyConfiguration, new object[] { this.PersistenceConnectionInfo.ProviderType == ProviderType.SQLCE ? Math.Min(this.Attribute.Length, 4000) : this.Attribute.Length });
+            _ = HasMaxLengthMethod.Invoke(propertyConfiguration, new object[] { PersistenceConnectionInfo.ProviderType == ProviderType.SQLCE ? Math.Min(Attribute.Length, 4000) : Attribute.Length });
         }
     }
 }

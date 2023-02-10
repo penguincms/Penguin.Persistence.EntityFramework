@@ -15,7 +15,7 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
-            object propertyConfiguration = this.Property<T>(modelBuilder);
+            object propertyConfiguration = Property<T>(modelBuilder);
 
             MethodInfo RequiredMethod = propertyConfiguration.GetType().GetMethod(nameof(PrimitivePropertyConfiguration.IsRequired));
 

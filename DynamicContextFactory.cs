@@ -17,13 +17,13 @@ namespace Penguin.Persistence.EntityFramework
         /// <returns>The instantiated context</returns>
         public virtual DynamicContext Create()
         {
-            if (this.GetType() == typeof(DynamicContextFactory))
+            if (GetType() == typeof(DynamicContextFactory))
             {
-                Type overriddenType = TypeFactory.GetMostDerivedType(this.GetType());
+                Type overriddenType = TypeFactory.GetMostDerivedType(GetType());
 
                 if (overriddenType == typeof(DynamicContextFactory))
                 {
-                    throw new Exception($"No overrides found for type {this.GetType().FullName}. Can not create context");
+                    throw new Exception($"No overrides found for type {GetType().FullName}. Can not create context");
                 }
                 else
                 {

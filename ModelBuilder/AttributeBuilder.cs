@@ -15,9 +15,9 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public AttributeBuilder(TMember m, PersistenceConnectionInfo persistenceConnectionInfo)
         {
-            this.Attribute = m.GetCustomAttribute<TAttribute>();
-            this.PersistenceConnectionInfo = persistenceConnectionInfo;
-            this.Member = m;
+            Attribute = m.GetCustomAttribute<TAttribute>();
+            PersistenceConnectionInfo = persistenceConnectionInfo;
+            Member = m;
         }
 
         public abstract void Build<TModel>(DbModelBuilder modelBuilder) where TModel : class;

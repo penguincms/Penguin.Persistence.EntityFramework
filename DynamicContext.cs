@@ -47,7 +47,7 @@ namespace Penguin.Persistence.EntityFramework
         {
             get
             {
-                lock (this.SetTypeLock)
+                lock (SetTypeLock)
                 {
                     if (_DbSetTypes is null)
                     {
@@ -69,6 +69,7 @@ namespace Penguin.Persistence.EntityFramework
             connectionInfo?.ProviderType == ProviderType.SQLCE ? new System.Data.SqlServerCe.SqlCeConnection(connectionInfo.ConnectionString) : new SqlConnection(connectionInfo.ConnectionString) as DbConnection;
 #else
             new SqlConnection(connectionInfo.ConnectionString);
+
 #endif
 
         /// <summary>
@@ -77,9 +78,9 @@ namespace Penguin.Persistence.EntityFramework
         /// <param name="connectionInfo">The connection info for the database</param>
         public DynamicContext(PersistenceConnectionInfo connectionInfo) : base(GetDbConnection(connectionInfo ?? throw new ArgumentNullException(nameof(connectionInfo))), true)
         {
-            this.ConnectionInfo = connectionInfo;
+            ConnectionInfo = connectionInfo;
 
-            this.SetUp();
+            SetUp();
         }
 
         /// <summary>
@@ -130,7 +131,7 @@ namespace Penguin.Persistence.EntityFramework
 
             string sql = TraceStringMethod.Invoke(objectSet, Array.Empty<object>()) as string;
 
-            Regex regex = new Regex("FROM (?<table>.*) AS");
+            Regex regex = new("FROM (?<table>.*) AS");
             Match match = regex.Match(sql);
 
             string table = match.Groups["table"].Value;
@@ -144,7 +145,7 @@ namespace Penguin.Persistence.EntityFramework
         /// <returns>Whether or not the entity is attached</returns>
         public bool IsAttached(object entity)
         {
-            return this.GetState(entity) != EntityState.Detached;
+            return GetState(entity) != EntityState.Detached;
         }
 
         /// <summary>
@@ -156,10 +157,7 @@ namespace Penguin.Persistence.EntityFramework
         /// <param name="Detatched">A list of objects that have already been detached (for recursion). Leave empty</param>
         public void TryDetach(KeyedObject e, DetachModes mode = DetachModes.All, bool Cascade = false, List<KeyedObject> Detatched = null)
         {
-            if (Detatched is null)
-            {
-                Detatched = new List<KeyedObject>();
-            }
+            Detatched ??= new List<KeyedObject>();
 
             if (e is null)
             {
@@ -175,11 +173,11 @@ namespace Penguin.Persistence.EntityFramework
 
             if (Cascade)
             {
-                this.TryDetachChildren(e, mode, Cascade, Detatched);
+                TryDetachChildren(e, mode, Cascade, Detatched);
             }
 
             //Detaching removes children so it must happen after recursion
-            if (this.IsAttached(e))
+            if (IsAttached(e))
             {
                 bool PassesMode = true;
 
@@ -187,12 +185,12 @@ namespace Penguin.Persistence.EntityFramework
                 {
                     if (mode.HasFlag(DetachModes.Added))
                     {
-                        PassesMode = PassesMode && (this.GetState(e) == EntityState.Added);
+                        PassesMode = PassesMode && (GetState(e) == EntityState.Added);
                     }
 
                     if (mode.HasFlag(DetachModes.Modified))
                     {
-                        PassesMode = PassesMode && (this.GetState(e) == EntityState.Modified);
+                        PassesMode = PassesMode && (GetState(e) == EntityState.Modified);
                     }
 
                     if (mode.HasFlag(DetachModes.ZeroId))
@@ -227,10 +225,7 @@ namespace Penguin.Persistence.EntityFramework
                 throw new ArgumentNullException(nameof(e));
             }
 
-            if (Detatched is null)
-            {
-                Detatched = new List<KeyedObject>();
-            }
+            Detatched ??= new List<KeyedObject>();
 
             foreach (PropertyInfo p in e.GetType().GetProperties())
             {
@@ -243,14 +238,14 @@ namespace Penguin.Persistence.EntityFramework
 
                 if (o is KeyedObject)
                 {
-                    this.TryDetach(o as KeyedObject, mode, Cascade, Detatched);
+                    TryDetach(o as KeyedObject, mode, Cascade, Detatched);
                 }
-                else if (!(o as IEnumerable is null))
+                else if (o as IEnumerable is not null)
                 {
                     IEnumerable list = o as IEnumerable;
                     foreach (object lo in list.Cast<object>().ToList())
                     {
-                        this.TryDetach(lo as KeyedObject, mode, Cascade, Detatched);
+                        TryDetach(lo as KeyedObject, mode, Cascade, Detatched);
                     }
                 }
             }
@@ -278,7 +273,7 @@ namespace Penguin.Persistence.EntityFramework
 
                 foreach (Type builderType in matchingTypes)
                 {
-                    object builder = Activator.CreateInstance(builderType, new object[] { t, this.ConnectionInfo });
+                    object builder = Activator.CreateInstance(builderType, new object[] { t, ConnectionInfo });
 
                     MethodInfo buildMethod = builderType.GetMethod(nameof(PropertyBuilder<PersistenceAttribute>.Build));
 
@@ -298,7 +293,7 @@ namespace Penguin.Persistence.EntityFramework
             {
                 foreach (PersistenceAttribute a in p.GetCustomAttributes<PersistenceAttribute>())
                 {
-                    this.MapProperty(modelBuilder, t, p, a);
+                    MapProperty(modelBuilder, t, p, a);
                 }
             }
 
@@ -313,13 +308,13 @@ namespace Penguin.Persistence.EntityFramework
 
                 if (p.GetCustomAttribute<MappedAttribute>() is null && !DefinedAttributes.Any())
                 {
-                    this.MapProperty(modelBuilder, t, p, new NotMappedAttribute());
+                    MapProperty(modelBuilder, t, p, new NotMappedAttribute());
                 }
                 else
                 {
                     foreach (PersistenceAttribute a in DefinedAttributes)
                     {
-                        this.MapProperty(modelBuilder, t, p, a);
+                        MapProperty(modelBuilder, t, p, a);
                     }
                 }
             }
@@ -327,13 +322,13 @@ namespace Penguin.Persistence.EntityFramework
 
         internal void SetUp()
         {
-            if (this.ConnectionInfo.ProviderType != ProviderType.SQLCE)
+            if (ConnectionInfo.ProviderType != ProviderType.SQLCE)
             {
                 try
                 {
                     int CommandTimeout = 300;
 
-                    this.Database.CommandTimeout = CommandTimeout;
+                    Database.CommandTimeout = CommandTimeout;
 
                     IObjectContextAdapter adapter = this;
                     //ToDo: Dont use ICollection inheriting properties
@@ -358,7 +353,7 @@ namespace Penguin.Persistence.EntityFramework
         /// <param name="modelBuilder">The provided modelbuilder</param>
         protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
         {
-            List<Type> allTypes = this.DbSetTypes.ToList();
+            List<Type> allTypes = DbSetTypes.ToList();
 
             int i = 0;
 
@@ -425,7 +420,7 @@ namespace Penguin.Persistence.EntityFramework
 
             foreach (Type builderType in matchingTypes)
             {
-                object builder = Activator.CreateInstance(builderType, new object[] { p, this.ConnectionInfo });
+                object builder = Activator.CreateInstance(builderType, new object[] { p, ConnectionInfo });
 
                 MethodInfo buildMethod = builderType.GetMethod(nameof(PropertyBuilder<PersistenceAttribute>.Build));
 

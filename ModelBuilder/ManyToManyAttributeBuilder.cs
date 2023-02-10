@@ -17,16 +17,16 @@ namespace Penguin.Persistence.EntityFramework.ModelBuilder
 
         public override void Build<T>(DbModelBuilder modelBuilder)
         {
-            Mapping mapping = this.Attribute.GetMapping(this.Member);
+            Mapping mapping = Attribute.GetMapping(Member);
 
             //HasMany
-            object manyNavigationPropertyConfiguration = MapMany<T>(modelBuilder, this.Member);
+            object manyNavigationPropertyConfiguration = MapMany<T>(modelBuilder, Member);
 
             //With Many
-            object manyToManyNavigationPropertyConfiguration = WithMany(manyNavigationPropertyConfiguration, this.Member, mapping);
+            object manyToManyNavigationPropertyConfiguration = WithMany(manyNavigationPropertyConfiguration, Member, mapping);
 
             //Map
-            Action<ManyToManyAssociationMappingConfiguration> configurationAction = new Action<ManyToManyAssociationMappingConfiguration>((config) =>
+            Action<ManyToManyAssociationMappingConfiguration> configurationAction = new((config) =>
             {
                 _ = config.MapLeftKey(mapping.Left.Key);
                 _ = config.MapRightKey(mapping.Right.Key);
