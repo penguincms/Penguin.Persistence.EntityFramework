@@ -431,6 +431,7 @@ namespace Penguin.Persistence.EntityFramework
         }
 
         private static HashSet<Type> _DbSetTypes { get; set; }
+
         private object SetTypeLock { get; set; } = new object();
     }
 }
