@@ -20,6 +20,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Loxifi;
 
 namespace Penguin.Persistence.EntityFramework
 {

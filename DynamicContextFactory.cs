@@ -1,6 +1,7 @@
 ﻿using Penguin.Reflection;
 using System;
 using System.Data.Entity.Infrastructure;
+using Loxifi;
 
 namespace Penguin.Persistence.EntityFramework
 {
