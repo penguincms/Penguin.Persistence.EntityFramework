@@ -20,10 +20,10 @@
     <EmbeddedResource Remove="packages\**" />
     <None Remove="Dist\**" />
     <None Remove="packages\**" />
-    <PackageReference Include="Loxifi.TypeFactory" Version="0.2.1" />
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.2.0" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="5.2.0" />
-    <PackageReference Include="Penguin.Reflection" Version="5.2.0" />
+    <PackageReference Include="Loxifi.TypeFactory" Version="0.9.0" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.4.0" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="5.4.0" />
+    <PackageReference Include="Penguin.Reflection" Version="5.4.0" />
   </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard2.1'))">
     <PackageReference Include="EntityFramework" Version="6.4.4" />

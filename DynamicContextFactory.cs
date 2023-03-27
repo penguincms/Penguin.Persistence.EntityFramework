@@ -20,7 +20,7 @@ namespace Penguin.Persistence.EntityFramework
         {
             if (GetType() == typeof(DynamicContextFactory))
             {
-                Type overriddenType = TypeFactory.GetMostDerivedType(GetType());
+                Type overriddenType = TypeFactory.Default.GetMostDerivedType(GetType());
 
                 if (overriddenType == typeof(DynamicContextFactory))
                 {

@@ -90,7 +90,7 @@ namespace Penguin.Persistence.EntityFramework
         /// <returns>A list of all types that will be added as DbSet to the context</returns>
         public static IEnumerable<Type> GetDynamicContextTypes()
         {
-            foreach (Type t in TypeFactory.GetDerivedTypes(typeof(Entity)))
+            foreach (Type t in TypeFactory.Default.GetDerivedTypes(typeof(Entity)))
             {
                 if (!t.IsAbstract && t.GetCustomAttribute<NotMappedAttribute>() is null)
                 {
@@ -265,7 +265,7 @@ namespace Penguin.Persistence.EntityFramework
                     isComplexType = true;
                 }
 
-                List<Type> matchingTypes = TypeFactory.GetDerivedTypes(typeof(TypeBuilder<>).MakeGenericType(a.GetType())).ToList();
+                List<Type> matchingTypes = TypeFactory.Default.GetDerivedTypes(typeof(TypeBuilder<>).MakeGenericType(a.GetType())).ToList();
 
                 if (matchingTypes.Count == 0)
                 {
@@ -417,7 +417,7 @@ namespace Penguin.Persistence.EntityFramework
 
         private void MapProperty(DbModelBuilder modelBuilder, Type t, PropertyInfo p, PersistenceAttribute a)
         {
-            List<Type> matchingTypes = TypeFactory.GetDerivedTypes(typeof(PropertyBuilder<>).MakeGenericType(a.GetType())).ToList();
+            List<Type> matchingTypes = TypeFactory.Default.GetDerivedTypes(typeof(PropertyBuilder<>).MakeGenericType(a.GetType())).ToList();
 
             foreach (Type builderType in matchingTypes)
             {
